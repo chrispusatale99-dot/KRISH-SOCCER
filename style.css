@@ -1,5 +1,6 @@
 /* =========================================================
-   KRISH SOCCER — LANDSCAPE MODE
+   KRISH SOCCER V0.2
+   LANDSCAPE MATCH UI + TOUCH CONTROLS
    ========================================================= */
 
 * {
@@ -7,6 +8,7 @@
     margin: 0;
     padding: 0;
     -webkit-tap-highlight-color: transparent;
+    user-select: none;
 }
 
 html,
@@ -20,9 +22,8 @@ body {
     font-family: Arial, sans-serif;
     background: #02060c;
     color: white;
+    touch-action: manipulation;
 }
-
-/* MAIN APP */
 
 #app {
     min-height: 100vh;
@@ -36,22 +37,15 @@ body {
         );
 }
 
-/* TOP BAR */
-
 .topbar {
     height: 58px;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     padding: 0 20px;
-
     background: rgba(0, 0, 0, 0.55);
-
-    border-bottom:
-        1px solid rgba(255, 255, 255, 0.1);
-
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -69,48 +63,29 @@ body {
     font-weight: bold;
 }
 
-/* SCREENS */
-
 .screen {
     width: 100%;
     max-width: 1200px;
     margin: auto;
-
-    padding:
-        25px
-        30px
-        50px;
+    padding: 25px 30px 50px;
 }
 
 .hidden {
     display: none !important;
 }
 
-/* HOME */
-
 .hero {
     text-align: center;
-
-    padding:
-        25px
-        10px
-        25px;
+    padding: 25px 10px 25px;
 }
 
 .football {
     font-size: 70px;
-
-    animation:
-        floatBall
-        2s
-        infinite
-        ease-in-out;
+    animation: floatBall 2s infinite ease-in-out;
 }
 
 @keyframes floatBall {
-
-    0%,
-    100% {
+    0%, 100% {
         transform: translateY(0);
     }
 
@@ -121,130 +96,63 @@ body {
 
 .hero h1 {
     margin-top: 10px;
-
-    font-size: clamp(
-        30px,
-        5vw,
-        48px
-    );
-
+    font-size: clamp(30px, 5vw, 48px);
     font-weight: 1000;
     letter-spacing: 3px;
 }
 
 .hero p {
     margin-top: 7px;
-
     font-size: 12px;
-
     opacity: 0.7;
-
     letter-spacing: 2px;
 }
 
-/* MENU */
-
 .menu {
-
-    width: min(
-        700px,
-        100%
-    );
-
+    width: min(700px, 100%);
     margin: auto;
-
     display: grid;
-
-    grid-template-columns:
-        repeat(
-            2,
-            1fr
-        );
-
+    grid-template-columns: repeat(2, 1fr);
     gap: 14px;
 }
 
 button {
-
     width: 100%;
-
     border: none;
-
     border-radius: 14px;
-
     padding: 17px;
-
     color: white;
-
-    background:
-        linear-gradient(
-            135deg,
-            #123b68,
-            #0a2340
-        );
-
+    background: linear-gradient(135deg, #123b68, #0a2340);
     font-size: 16px;
-
     font-weight: 800;
-
     cursor: pointer;
-
-    box-shadow:
-        0 8px 25px
-        rgba(0, 0, 0, 0.25);
-
-    transition:
-        transform 0.15s ease,
-        filter 0.15s ease;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    transition: transform 0.12s ease, filter 0.12s ease;
 }
 
 button:active {
-    transform: scale(0.97);
+    transform: scale(0.94);
 }
 
 button:hover {
-    filter: brightness(1.2);
+    filter: brightness(1.15);
 }
-
-/* BACK BUTTON */
 
 .back {
     width: auto;
-
-    padding:
-        10px
-        16px;
-
+    padding: 10px 16px;
     margin-bottom: 20px;
-
     font-size: 13px;
 }
 
-/* HEADINGS */
-
 h2 {
     margin-bottom: 20px;
-
-    font-size:
-        clamp(
-            22px,
-            4vw,
-            30px
-        );
+    font-size: clamp(22px, 4vw, 30px);
 }
 
-/* LEAGUE */
-
 .cards {
-
     display: grid;
-
-    grid-template-columns:
-        repeat(
-            4,
-            1fr
-        );
-
+    grid-template-columns: repeat(4, 1fr);
     gap: 12px;
 }
 
@@ -253,178 +161,272 @@ h2 {
 }
 
 .team-grid {
-
     display: grid;
-
-    grid-template-columns:
-        repeat(
-            3,
-            1fr
-        );
-
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
-
     margin-top: 15px;
 }
 
 .team-button {
     text-align: left;
-
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            0.08
-        );
-
-    border:
-        1px solid
-        rgba(
-            255,
-            255,
-            255,
-            0.1
-        );
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* MANAGER */
-
 .manager-card {
-
     max-width: 600px;
-
     margin: auto;
-
     text-align: center;
-
     padding: 30px 20px;
-
     border-radius: 20px;
-
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            0.07
-        );
-
-    border:
-        1px solid
-        rgba(
-            255,
-            255,
-            255,
-            0.1
-        );
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .manager-photo {
-
     width: 110px;
     height: 110px;
-
-    margin:
-        0
-        auto
-        20px;
-
+    margin: 0 auto 20px;
     border-radius: 50%;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     background: #14283e;
-
     font-size: 55px;
 }
 
 .manager-card h3 {
-
     font-size: 22px;
-
     margin-bottom: 15px;
 }
 
 .manager-card p {
-
     margin: 8px 0;
-
     opacity: 0.8;
 }
-
-/* ONLINE */
 
 #onlineScreen button {
     margin-bottom: 12px;
 }
 
 #onlineMessage {
-
     margin-top: 15px;
-
     padding: 15px;
-
     border-radius: 12px;
-
-    background:
-        rgba(
-            0,
-            255,
-            136,
-            0.08
-        );
-
-    border:
-        1px solid
-        rgba(
-            0,
-            255,
-            136,
-            0.15
-        );
-
+    background: rgba(0, 255, 136, 0.08);
+    border: 1px solid rgba(0, 255, 136, 0.15);
     color: #9dffc9;
-
     text-align: center;
-
     min-height: 20px;
 }
 
+
 /* =========================================================
-   PHONE LANDSCAPE
+   MATCH CONTROLS
    ========================================================= */
 
-@media
-screen
-and
-(max-width: 900px)
-and
-(orientation: landscape) {
+#matchControls {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+
+    pointer-events: none;
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   JOYSTICK
+   ========================================================= */
+
+#joystick {
+    position: absolute;
+
+    left: 5%;
+    bottom: 7%;
+
+    width: 150px;
+    height: 150px;
+
+    pointer-events: auto;
+}
+
+#joystickBase {
+    position: absolute;
+
+    width: 150px;
+    height: 150px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,0.16),
+            rgba(255,255,255,0.05)
+        );
+
+    border:
+        3px solid
+        rgba(255,255,255,0.3);
+
+    box-shadow:
+        inset 0 0 20px rgba(0,0,0,0.5),
+        0 5px 25px rgba(0,0,0,0.35);
+
+    touch-action: none;
+}
+
+#joystickKnob {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 65px;
+    height: 65px;
+
+    transform:
+        translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #ffffff,
+            #bfc9d5 40%,
+            #657384 100%
+        );
+
+    border:
+        3px solid
+        rgba(255,255,255,0.8);
+
+    box-shadow:
+        0 6px 18px
+        rgba(0,0,0,0.45);
+
+    transition:
+        transform 0.05s linear;
+}
+
+
+/* =========================================================
+   A B C ACTION BUTTONS
+   Layout:
+
+                         C
+
+                    B        A
+   ========================================================= */
+
+#actionControls {
+    position: absolute;
+
+    right: 5%;
+    bottom: 7%;
+
+    width: 210px;
+    height: 220px;
+
+    pointer-events: none;
+}
+
+.action-button {
+    position: absolute;
+
+    width: 78px;
+    height: 78px;
+
+    padding: 0;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: auto;
+
+    font-size: 27px;
+    font-weight: 1000;
+
+    color: white;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #315b82,
+            #102943 65%,
+            #071321
+        );
+
+    border:
+        3px solid
+        rgba(255,255,255,0.45);
+
+    box-shadow:
+        0 8px 22px
+        rgba(0,0,0,0.45);
+
+    touch-action: none;
+}
+
+.action-button:active {
+    transform: scale(0.88);
+    filter: brightness(1.4);
+}
+
+#buttonC {
+    top: 0;
+    right: 10px;
+}
+
+.bottom-actions {
+    position: absolute;
+
+    right: 0;
+    bottom: 0;
+
+    width: 190px;
+    height: 85px;
+}
+
+#buttonB {
+    left: 0;
+    bottom: 0;
+}
+
+#buttonA {
+    right: 0;
+    bottom: 0;
+}
+
+
+/* =========================================================
+   MOBILE LANDSCAPE
+   ========================================================= */
+
+@media screen
+and (orientation: landscape)
+and (max-height: 600px) {
 
     .topbar {
-        height: 50px;
+        height: 45px;
     }
 
     .screen {
-
         max-width: 100%;
-
-        padding:
-            15px
-            25px
-            30px;
+        padding: 15px 25px 30px;
     }
 
     .hero {
-
-        padding:
-            10px
-            10px
-            15px;
+        padding: 10px;
     }
 
     .football {
@@ -439,78 +441,81 @@ and
         font-size: 10px;
     }
 
-    .menu {
+    #joystick {
+        width: 125px;
+        height: 125px;
 
-        max-width: 700px;
-
-        grid-template-columns:
-            repeat(
-                2,
-                1fr
-            );
+        left: 4%;
+        bottom: 6%;
     }
 
-    button {
-        padding: 13px;
-        font-size: 14px;
+    #joystickBase {
+        width: 125px;
+        height: 125px;
     }
 
-    .cards {
-
-        grid-template-columns:
-            repeat(
-                4,
-                1fr
-            );
+    #joystickKnob {
+        width: 55px;
+        height: 55px;
     }
 
-    .team-grid {
+    #actionControls {
+        right: 4%;
+        bottom: 5%;
 
-        grid-template-columns:
-            repeat(
-                3,
-                1fr
-            );
+        width: 180px;
+        height: 180px;
+    }
+
+    .action-button {
+        width: 65px;
+        height: 65px;
+        font-size: 23px;
+    }
+
+    .bottom-actions {
+        width: 165px;
+        height: 70px;
     }
 }
 
+
 /* =========================================================
-   VERY SMALL LANDSCAPE PHONES
+   SMALL LANDSCAPE PHONES
    ========================================================= */
 
-@media
-screen
-and
-(max-height: 500px)
-and
-(orientation: landscape) {
+@media screen
+and (orientation: landscape)
+and (max-height: 430px) {
 
-    .topbar {
+    #joystick {
+        width: 100px;
+        height: 100px;
+    }
+
+    #joystickBase {
+        width: 100px;
+        height: 100px;
+    }
+
+    #joystickKnob {
+        width: 45px;
         height: 45px;
     }
 
-    .screen {
-        padding: 10px 20px 20px;
+    #actionControls {
+        width: 150px;
+        height: 150px;
     }
 
-    .hero {
-        padding: 5px;
+    .action-button {
+        width: 55px;
+        height: 55px;
+        font-size: 20px;
     }
 
-    .football {
-        font-size: 35px;
-    }
-
-    .hero h1 {
-        font-size: 24px;
-    }
-
-    .hero p {
-        display: none;
-    }
-
-    button {
-        padding: 11px;
-        font-size: 13px;
+    .bottom-actions {
+        width: 140px;
+        height: 60px;
     }
 }
