@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KRISH SOCCER</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="app">
+
+        <header class="topbar">
+            <div class="logo">⚡ KRISH SOCCER</div>
+            <div class="status">ONLINE</div>
+        </header>
+
+        <main id="homeScreen" class="screen">
+
+            <div class="hero">
+                <div class="football">⚽</div>
+                <h1>KRISH SOCCER</h1>
+                <p>THE BEAST FOOTBALL EXPERIENCE</p>
+            </div>
+
+            <div class="menu">
+
+                <button onclick="startOffline()">
+                    ⚽ OFFLINE MATCH
+                </button>
+
+                <button onclick="showOnline()">
+                    🌐 ONLINE
+                </button>
+
+                <button onclick="showLeague()">
+                    🏆 KRISH LEAGUE
+                </button>
+
+                <button onclick="showManager()">
+                    👔 MY MANAGER
+                </button>
+
+            </div>
+
+        </main>
+
+        <main id="teamScreen" class="screen hidden">
+
+            <button class="back" onclick="goHome()">← BACK</button>
+
+            <h2>SELECT YOUR LEAGUE</h2>
+
+            <div class="cards">
+
+                <button onclick="selectLeague('Premier League')">
+                    🏴 PREMIER LEAGUE
+                </button>
+
+                <button onclick="selectLeague('La Liga')">
+                    🇪🇸 LA LIGA
+                </button>
+
+                <button onclick="selectLeague('Serie A')">
+                    🇮🇹 SERIE A
+                </button>
+
+                <button onclick="selectLeague('Bundesliga')">
+                    🇩🇪 BUNDESLIGA
+                </button>
+
+            </div>
+
+            <div id="teamArea"></div>
+
+        </main>
+
+        <main id="onlineScreen" class="screen hidden">
+
+            <button class="back" onclick="goHome()">← BACK</button>
+
+            <h2>🌐 ONLINE WORLD</h2>
+
+            <button onclick="quickMatch()">
+                ⚔️ QUICK MATCH
+            </button>
+
+            <button onclick="krishLeague()">
+                🏆 KRISH LEAGUE
+            </button>
+
+            <button onclick="findOpponent()">
+                🔎 FIND OPPONENT
+            </button>
+
+            <div id="onlineMessage"></div>
+
+        </main>
+
+        <main id="managerScreen" class="screen hidden">
+
+            <button class="back" onclick="goHome()">← BACK</button>
+
+            <h2>👔 MY MANAGER</h2>
+
+            <div class="manager-card">
+
+                <div class="manager-photo">👤</div>
+
+                <h3>KRISH MANAGER</h3>
+
+                <p>Manager Rating: <strong>0</strong></p>
+                <p>Trophies: <strong>0</strong></p>
+                <p>Matches: <strong>0</strong></p>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="game.js"></script>
+
+</body>
+</html>
