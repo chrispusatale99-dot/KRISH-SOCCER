@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -10,304 +9,272 @@
         content="width=device-width, initial-scale=1.0, user-scalable=no"
     >
 
-    <title>KRISH SOCCER</title>
+    <meta name="theme-color" content="#06101a">
+
+    <title>KRISH SOCCER V0.3</title>
 
     <link rel="stylesheet" href="style.css">
-
 </head>
-
 
 <body>
 
-    <div id="app">
+<div id="app">
 
+    <!-- =====================================================
+         HOME SCREEN
+    ====================================================== -->
 
-        <!-- =================================================
-             TOP BAR
-        ================================================== -->
+    <main id="homeScreen" class="screen">
 
-        <header class="topbar">
+        <div class="hero">
 
-            <div class="logo">
-                ⚡ KRISH SOCCER
-            </div>
+            <div class="football-logo">⚽</div>
 
-            <div class="status">
-                ONLINE
-            </div>
+            <h1>KRISH SOCCER</h1>
 
-        </header>
+            <p>THE BEAST FOOTBALL EXPERIENCE</p>
 
+        </div>
 
+        <div class="menu">
 
-        <!-- =================================================
-             HOME SCREEN
-        ================================================== -->
-
-        <main
-            id="homeScreen"
-            class="screen"
-        >
-
-            <div class="hero">
-
-                <div class="football">
-                    ⚽
-                </div>
-
-                <h1>
-                    KRISH SOCCER
-                </h1>
-
-                <p>
-                    THE BEAST FOOTBALL EXPERIENCE
-                </p>
-
-            </div>
-
-
-            <div class="menu">
-
-                <button onclick="startOffline()">
-                    ⚽ OFFLINE MATCH
-                </button>
-
-
-                <button onclick="showOnline()">
-                    🌐 ONLINE
-                </button>
-
-
-                <button onclick="showLeague()">
-                    🏆 KRISH LEAGUE
-                </button>
-
-
-                <button onclick="showManager()">
-                    👔 MY MANAGER
-                </button>
-
-            </div>
-
-        </main>
-
-
-
-        <!-- =================================================
-             TEAM / LEAGUE SCREEN
-        ================================================== -->
-
-        <main
-            id="teamScreen"
-            class="screen hidden"
-        >
-
-            <button
-                class="back"
-                onclick="goHome()"
-            >
-                ← BACK
+            <button onclick="startOffline()">
+                ⚽ OFFLINE MATCH
             </button>
 
-
-            <h2>
-                SELECT YOUR LEAGUE
-            </h2>
-
-
-            <div class="cards">
-
-                <button
-                    onclick="selectLeague('Premier League')"
-                >
-                    🏴 PREMIER LEAGUE
-                </button>
-
-
-                <button
-                    onclick="selectLeague('La Liga')"
-                >
-                    🇪🇸 LA LIGA
-                </button>
-
-
-                <button
-                    onclick="selectLeague('Serie A')"
-                >
-                    🇮🇹 SERIE A
-                </button>
-
-
-                <button
-                    onclick="selectLeague('Bundesliga')"
-                >
-                    🇩🇪 BUNDESLIGA
-                </button>
-
-            </div>
-
-
-            <div id="teamArea"></div>
-
-        </main>
-
-
-
-        <!-- =================================================
-             ONLINE SCREEN
-        ================================================== -->
-
-        <main
-            id="onlineScreen"
-            class="screen hidden"
-        >
-
-            <button
-                class="back"
-                onclick="goHome()"
-            >
-                ← BACK
+            <button onclick="showOnline()">
+                🌐 ONLINE
             </button>
 
-
-            <h2>
-                🌐 ONLINE WORLD
-            </h2>
-
-
-            <button onclick="quickMatch()">
-                ⚔️ QUICK MATCH
-            </button>
-
-
-            <button onclick="krishLeague()">
+            <button onclick="showLeague()">
                 🏆 KRISH LEAGUE
             </button>
 
-
-            <button onclick="findOpponent()">
-                🔎 FIND OPPONENT
+            <button onclick="showManager()">
+                👔 MY MANAGER
             </button>
 
+        </div>
 
-            <div id="onlineMessage"></div>
-
-        </main>
-
+    </main>
 
 
-        <!-- =================================================
-             MANAGER SCREEN
-        ================================================== -->
+    <!-- =====================================================
+         TEAM SCREEN
+    ====================================================== -->
 
-        <main
-            id="managerScreen"
-            class="screen hidden"
-        >
+    <main id="teamScreen" class="screen hidden">
+
+        <button class="back" onclick="goHome()">
+            ← BACK
+        </button>
+
+        <h2>SELECT YOUR LEAGUE</h2>
+
+        <div class="cards">
+
+            <button onclick="selectLeague('Premier League')">
+                🏴 PREMIER LEAGUE
+            </button>
+
+            <button onclick="selectLeague('La Liga')">
+                🇪🇸 LA LIGA
+            </button>
+
+            <button onclick="selectLeague('Serie A')">
+                🇮🇹 SERIE A
+            </button>
+
+            <button onclick="selectLeague('Bundesliga')">
+                🇩🇪 BUNDESLIGA
+            </button>
+
+        </div>
+
+        <div id="teamArea"></div>
+
+    </main>
+
+
+    <!-- =====================================================
+         ONLINE SCREEN
+    ====================================================== -->
+
+    <main id="onlineScreen" class="screen hidden">
+
+        <button class="back" onclick="goHome()">
+            ← BACK
+        </button>
+
+        <h2>🌐 ONLINE WORLD</h2>
+
+        <button onclick="quickMatch()">
+            ⚔️ QUICK MATCH
+        </button>
+
+        <button onclick="krishLeague()">
+            🏆 KRISH LEAGUE
+        </button>
+
+        <button onclick="findOpponent()">
+            🔎 FIND OPPONENT
+        </button>
+
+        <div id="onlineMessage"></div>
+
+    </main>
+
+
+    <!-- =====================================================
+         MANAGER SCREEN
+    ====================================================== -->
+
+    <main id="managerScreen" class="screen hidden">
+
+        <button class="back" onclick="goHome()">
+            ← BACK
+        </button>
+
+        <h2>👔 MY MANAGER</h2>
+
+        <div class="manager-card">
+
+            <div class="manager-photo">
+                👔
+            </div>
+
+            <h3>KRISH MANAGER</h3>
+
+            <p>
+                Manager Rating:
+                <strong>0</strong>
+            </p>
+
+            <p>
+                Trophies:
+                <strong>0</strong>
+            </p>
+
+            <p>
+                Matches:
+                <strong>0</strong>
+            </p>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         MATCH SCREEN
+    ====================================================== -->
+
+    <main id="matchScreen" class="match-screen hidden">
+
+        <!-- MATCH HEADER -->
+
+        <div class="match-header">
 
             <button
-                class="back"
-                onclick="goHome()"
+                id="pauseButton"
+                class="pause-button"
+                onclick="togglePause()"
             >
-                ← BACK
+                II
             </button>
 
+            <div class="team-score">
 
-            <h2>
-                👔 MY MANAGER
-            </h2>
+                <span id="homeTeamName">
+                    KRISH FC
+                </span>
 
+                <strong>
+                    <span id="homeScore">0</span>
+                    -
+                    <span id="awayScore">0</span>
+                </strong>
 
-            <div class="manager-card">
-
-                <div class="manager-photo">
-                    👤
-                </div>
-
-
-                <h3>
-                    KRISH MANAGER
-                </h3>
-
-
-                <p>
-                    Manager Rating:
-                    <strong>0</strong>
-                </p>
-
-
-                <p>
-                    Trophies:
-                    <strong>0</strong>
-                </p>
-
-
-                <p>
-                    Matches:
-                    <strong>0</strong>
-                </p>
+                <span id="awayTeamName">
+                    OPPONENT FC
+                </span>
 
             </div>
 
-        </main>
+            <div
+                id="matchTime"
+                class="match-time"
+            >
+                00:00
+            </div>
 
+        </div>
 
 
         <!-- =================================================
-             KRISH SOCCER MATCH CONTROLS
-             
-             LAYOUT:
+             FOOTBALL PITCH
+        ================================================== -->
 
-                              C
+        <div id="pitchWrapper">
 
-             🕹️             B       A
+            <canvas
+                id="footballCanvas"
+            ></canvas>
+
+        </div>
+
+
+        <!-- =================================================
+             TOUCH CONTROLS
+
+             C
+
+        B        A
         ================================================== -->
 
         <div
             id="matchControls"
-            class="hidden"
+            class="match-controls"
         >
 
+            <!-- JOYSTICK -->
 
-            <!-- ===============================
-                 LEFT JOYSTICK
-            ================================ -->
+            <div
+                id="joystick"
+                class="joystick"
+            >
 
-            <div id="joystick">
+                <div
+                    id="joystickBase"
+                    class="joystick-base"
+                >
 
-                <div id="joystickBase">
-
-                    <div id="joystickKnob"></div>
+                    <div
+                        id="joystickKnob"
+                        class="joystick-knob"
+                    ></div>
 
                 </div>
 
             </div>
 
 
+            <!-- ACTION BUTTONS -->
 
-            <!-- ===============================
-                 RIGHT ACTION BUTTONS
-            ================================ -->
-
-            <div id="actionControls">
-
-
-                <!-- C BUTTON -->
+            <div
+                id="actionControls"
+                class="action-controls"
+            >
 
                 <button
                     id="buttonC"
-                    class="action-button"
+                    class="action-button button-c"
                     type="button"
                 >
                     C
                 </button>
 
-
-
-                <!-- B + A -->
-
                 <div class="bottom-actions">
-
 
                     <button
                         id="buttonB"
@@ -317,7 +284,6 @@
                         B
                     </button>
 
-
                     <button
                         id="buttonA"
                         class="action-button"
@@ -326,27 +292,56 @@
                         A
                     </button>
 
-
                 </div>
 
-
             </div>
-
 
         </div>
 
 
-    </div>
+        <!-- =================================================
+             ACTION LABEL
+        ================================================== -->
+
+        <div
+            id="actionMessage"
+            class="action-message"
+        >
+            READY
+        </div>
 
 
+        <!-- =================================================
+             PAUSE PANEL
+        ================================================== -->
 
-    <!-- =====================================================
-         GAME JAVASCRIPT
-    ====================================================== -->
+        <div
+            id="pausePanel"
+            class="pause-panel hidden"
+        >
 
-    <script src="game.js"></script>
+            <h2>PAUSED</h2>
 
+            <button onclick="togglePause()">
+                ▶ RESUME
+            </button>
+
+            <button onclick="restartMatch()">
+                🔄 RESTART
+            </button>
+
+            <button onclick="exitMatch()">
+                🏠 EXIT MATCH
+            </button>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script src="game.js"></script>
 
 </body>
-
 </html>
