@@ -1,11 +1,29 @@
 /* =========================================================
-   KRISH SOCCER V0.3
-   PLAYABLE 2D FOOTBALL ENGINE
+   KRISH SOCCER V0.4
+   BEAST FOOTBALL ENGINE
+
+   FEATURES
+   ---------------------------------------------------------
+   ⚽ Improved player models
+   ⚽ Ball physics
+   🧠 AI teammates
+   🧠 AI opponents
+   🧤 Goalkeeper
+   🎥 Dynamic camera
+   💚 Stamina
+   🔄 Player switching
+   🎮 Joystick
+   A = PASS / THROUGH PASS
+   B = SHOOT / POWER SHOT
+   C = SKILL / SPRINT
+   🥅 Goals
+   ⏱ Match clock
+   ⏸ Pause
    ========================================================= */
 
 
 /* =========================================================
-   TEAM DATABASE
+   TEAMS
    ========================================================= */
 
 const teams = {
@@ -78,7 +96,6 @@ function showScreen(id) {
 
     });
 
-
     const target =
         document.getElementById(id);
 
@@ -90,7 +107,7 @@ function showScreen(id) {
 
 
 /* =========================================================
-   HOME
+   MENU
    ========================================================= */
 
 function goHome() {
@@ -136,10 +153,6 @@ function startOffline() {
 }
 
 
-/* =========================================================
-   LEAGUE
-   ========================================================= */
-
 function showLeague() {
 
     showScreen("teamScreen");
@@ -183,7 +196,6 @@ function selectLeague(league) {
     const leagueTeams =
         teams[league] || [];
 
-
     let html = `
 
         <h3 style="margin-top:20px;">
@@ -201,7 +213,6 @@ function selectLeague(league) {
 
     `;
 
-
     leagueTeams.forEach(team => {
 
         html += `
@@ -217,20 +228,14 @@ function selectLeague(league) {
 
     });
 
-
     html += `
         </div>
     `;
-
 
     area.innerHTML = html;
 
 }
 
-
-/* =========================================================
-   TEAM SELECTION
-   ========================================================= */
 
 function selectTeam(team, league) {
 
@@ -238,7 +243,6 @@ function selectTeam(team, league) {
         document.getElementById(
             "teamArea"
         );
-
 
     area.innerHTML = `
 
@@ -269,6 +273,8 @@ function selectTeam(team, league) {
             <button
                 style="
                     margin-top:20px;
+                    padding:15px 25px;
+                    border-radius:12px;
                     background:
                     linear-gradient(
                         135deg,
@@ -289,101 +295,6 @@ function selectTeam(team, league) {
 
 
 /* =========================================================
-   MANAGER
-   ========================================================= */
-
-function showManager() {
-
-    showScreen("managerScreen");
-
-    loadManager();
-
-}
-
-
-function loadManager() {
-
-    const data =
-        localStorage.getItem(
-            "krishManager"
-        );
-
-
-    if (!data) {
-        return;
-    }
-
-
-    let manager;
-
-    try {
-
-        manager =
-            JSON.parse(data);
-
-    } catch (error) {
-
-        console.error(error);
-
-        return;
-    }
-
-
-    const card =
-        document.querySelector(
-            ".manager-card"
-        );
-
-
-    if (!card) {
-        return;
-    }
-
-
-    card.innerHTML = `
-
-        <div class="manager-photo">
-            👔
-        </div>
-
-        <h3>
-            ${manager.name}
-        </h3>
-
-        <p>
-            Club:
-            <strong>
-                ${manager.team}
-            </strong>
-        </p>
-
-        <p>
-            Manager Rating:
-            <strong>
-                ${manager.rating}
-            </strong>
-        </p>
-
-        <p>
-            Trophies:
-            <strong>
-                ${manager.trophies}
-            </strong>
-        </p>
-
-        <p>
-            Matches:
-            <strong>
-                ${manager.matches}
-            </strong>
-        </p>
-
-    `;
-
-}
-
-
-/* =========================================================
    ONLINE
    ========================================================= */
 
@@ -394,7 +305,7 @@ function showOnline() {
     document.getElementById(
         "onlineMessage"
     ).innerHTML =
-        "🌐 Online multiplayer will be connected in a later version.";
+        "🌐 ONLINE SYSTEM READY";
 
 }
 
@@ -430,7 +341,108 @@ function findOpponent() {
 
 
 /* =========================================================
-   MATCH ENGINE
+   MANAGER
+   ========================================================= */
+
+function showManager() {
+
+    showScreen("managerScreen");
+
+    loadManager();
+
+}
+
+
+function loadManager() {
+
+    const data =
+        localStorage.getItem(
+            "krishManager"
+        );
+
+    if (!data) {
+        return;
+    }
+
+    let manager;
+
+    try {
+
+        manager =
+            JSON.parse(data);
+
+    } catch (error) {
+
+        console.error(error);
+
+        return;
+
+    }
+
+    const card =
+        document.querySelector(
+            ".manager-card"
+        );
+
+    if (!card) {
+        return;
+    }
+
+    card.innerHTML = `
+
+        <div class="manager-photo">
+            👔
+        </div>
+
+        <h3>
+            ${manager.name}
+        </h3>
+
+        <p style="margin-top:10px;">
+            Club:
+            <strong>
+                ${manager.team}
+            </strong>
+        </p>
+
+        <div class="manager-stats">
+
+            <div>
+                <strong>
+                    ${manager.rating}
+                </strong>
+                <span>
+                    RATING
+                </span>
+            </div>
+
+            <div>
+                <strong>
+                    ${manager.trophies}
+                </strong>
+                <span>
+                    TROPHIES
+                </span>
+            </div>
+
+            <div>
+                <strong>
+                    ${manager.matches}
+                </strong>
+                <span>
+                    MATCHES
+                </span>
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   GAME STATE
    ========================================================= */
 
 const game = {
@@ -453,17 +465,34 @@ const game = {
 
     elapsed: 0,
 
+    matchDuration: 180,
+
     homeScore: 0,
 
     awayScore: 0,
 
     selectedTeam: "KRISH FC",
 
-    pitch: {
+    camera: {
+
         x: 0,
+
         y: 0,
+
+        zoom: 1
+
+    },
+
+    pitch: {
+
+        x: 0,
+
+        y: 0,
+
         width: 0,
+
         height: 0
+
     },
 
     player: null,
@@ -472,13 +501,19 @@ const game = {
 
     opponents: [],
 
-    ball: null
+    ball: null,
+
+    possessionHome: 0,
+
+    possessionAway: 0,
+
+    switchCooldown: 0
 
 };
 
 
 /* =========================================================
-   PLAYER CREATION
+   PLAYER CREATOR
    ========================================================= */
 
 function createPlayer(
@@ -499,7 +534,7 @@ function createPlayer(
 
         vy: 0,
 
-        radius: 13,
+        radius: 14,
 
         team: team,
 
@@ -507,9 +542,34 @@ function createPlayer(
 
         role: role,
 
-        speed: 210,
+        speed:
+            role === "GK"
+                ? 150
+                : 205,
 
-        controlled: false
+        stamina: 100,
+
+        controlled: false,
+
+        facingX:
+            team === "home"
+                ? 1
+                : -1,
+
+        facingY: 0,
+
+        aiTimer:
+            Math.random() * 2,
+
+        hasBall: false,
+
+        kickCooldown: 0,
+
+        skin:
+            Math.random(),
+
+        bob:
+            Math.random() * Math.PI * 2
 
     };
 
@@ -531,16 +591,16 @@ function launchMatch(team) {
 
     createMatch();
 
-    showActionMessage(
-        "MATCH START!"
-    );
-
     game.running = true;
 
     game.paused = false;
 
     game.lastTime =
         performance.now();
+
+    showActionMessage(
+        "⚽ KICK OFF!"
+    );
 
     startGameLoop();
 
@@ -559,18 +619,21 @@ function createMatch() {
 
     game.awayScore = 0;
 
+    game.possessionHome = 0;
+
+    game.possessionAway = 0;
 
     updateScoreboard();
 
-
     calculatePitch();
-
 
     const p =
         game.pitch;
 
 
-    /* MAIN CONTROLLED PLAYER */
+    /* =====================================================
+       HOME TEAM
+       ===================================================== */
 
     game.player =
         createPlayer(
@@ -581,18 +644,14 @@ function createMatch() {
             "ST"
         );
 
+    game.player.controlled = true;
 
-    game.player.controlled =
-        true;
-
-
-    /* HOME TEAMMATES */
 
     game.teammates = [
 
         createPlayer(
             p.x + p.width * .20,
-            p.y + p.height * .25,
+            p.y + p.height * .28,
             "home",
             7,
             "LW"
@@ -600,23 +659,23 @@ function createMatch() {
 
         createPlayer(
             p.x + p.width * .20,
-            p.y + p.height * .75,
+            p.y + p.height * .72,
             "home",
             11,
             "RW"
         ),
 
         createPlayer(
-            p.x + p.width * .10,
+            p.x + p.width * .14,
             p.y + p.height * .50,
             "home",
-            6,
+            8,
             "CM"
         ),
 
         createPlayer(
             p.x + p.width * .08,
-            p.y + p.height * .25,
+            p.y + p.height * .30,
             "home",
             3,
             "DF"
@@ -624,22 +683,32 @@ function createMatch() {
 
         createPlayer(
             p.x + p.width * .08,
-            p.y + p.height * .75,
+            p.y + p.height * .70,
             "home",
             4,
             "DF"
+        ),
+
+        createPlayer(
+            p.x + p.width * .04,
+            p.y + p.height * .50,
+            "home",
+            1,
+            "GK"
         )
 
     ];
 
 
-    /* OPPONENTS */
+    /* =====================================================
+       AWAY TEAM
+       ===================================================== */
 
     game.opponents = [
 
         createPlayer(
             p.x + p.width * .70,
-            p.y + p.height * .25,
+            p.y + p.height * .28,
             "away",
             7,
             "LW"
@@ -647,7 +716,7 @@ function createMatch() {
 
         createPlayer(
             p.x + p.width * .70,
-            p.y + p.height * .75,
+            p.y + p.height * .72,
             "away",
             11,
             "RW"
@@ -663,7 +732,7 @@ function createMatch() {
 
         createPlayer(
             p.x + p.width * .90,
-            p.y + p.height * .25,
+            p.y + p.height * .30,
             "away",
             3,
             "DF"
@@ -671,14 +740,14 @@ function createMatch() {
 
         createPlayer(
             p.x + p.width * .90,
-            p.y + p.height * .75,
+            p.y + p.height * .70,
             "away",
             4,
             "DF"
         ),
 
         createPlayer(
-            p.x + p.width * .95,
+            p.x + p.width * .96,
             p.y + p.height * .50,
             "away",
             1,
@@ -688,12 +757,15 @@ function createMatch() {
     ];
 
 
-    /* BALL */
+    /* =====================================================
+       BALL
+       ===================================================== */
 
     game.ball = {
 
         x:
-            game.player.x + 22,
+            game.player.x +
+            20,
 
         y:
             game.player.y,
@@ -704,11 +776,25 @@ function createMatch() {
 
         radius: 7,
 
-        owner: game.player,
+        owner:
+            game.player,
 
-        free: false
+        free: false,
+
+        spin: 0
 
     };
+
+
+    game.camera.x =
+        game.player.x;
+
+    game.camera.y =
+        game.player.y;
+
+    game.camera.zoom = 1;
+
+    updateBallStatus();
 
 }
 
@@ -724,11 +810,14 @@ function setupCanvas() {
             "footballCanvas"
         );
 
+    if (!game.canvas) {
+        return;
+    }
+
     game.ctx =
         game.canvas.getContext(
             "2d"
         );
-
 
     resizeCanvas();
 
@@ -741,21 +830,27 @@ function resizeCanvas() {
         return;
     }
 
-
     const rect =
         game.canvas.getBoundingClientRect();
-
 
     const ratio =
         window.devicePixelRatio || 1;
 
-
     game.canvas.width =
-        rect.width * ratio;
+        Math.max(
+            1,
+            Math.floor(
+                rect.width * ratio
+            )
+        );
 
     game.canvas.height =
-        rect.height * ratio;
-
+        Math.max(
+            1,
+            Math.floor(
+                rect.height * ratio
+            )
+        );
 
     game.ctx.setTransform(
         ratio,
@@ -766,57 +861,48 @@ function resizeCanvas() {
         0
     );
 
-
     game.width =
         rect.width;
 
     game.height =
         rect.height;
 
-
     calculatePitch();
 
-
-    if (
-        game.player &&
-        game.ball
-    ) {
-
+    if (game.player) {
         keepPlayersInside();
-
     }
 
 }
 
 
+/* =========================================================
+   LARGE PITCH
+   ========================================================= */
+
 function calculatePitch() {
 
-    const marginX =
+    const pitchWidth =
         Math.max(
-            25,
-            game.width * .04
+            1400,
+            game.width * 1.65
         );
 
-    const marginY =
+    const pitchHeight =
         Math.max(
-            25,
-            game.height * .05
+            700,
+            game.height * 1.45
         );
-
 
     game.pitch = {
 
-        x: marginX,
+        x: 0,
 
-        y: marginY,
+        y: 0,
 
-        width:
-            game.width -
-            marginX * 2,
+        width: pitchWidth,
 
-        height:
-            game.height -
-            marginY * 2
+        height: pitchHeight
 
     };
 
@@ -829,16 +915,13 @@ function calculatePitch() {
 
 function startGameLoop() {
 
-    if (
-        game.animationId
-    ) {
+    if (game.animationId) {
 
         cancelAnimationFrame(
             game.animationId
         );
 
     }
-
 
     game.animationId =
         requestAnimationFrame(
@@ -854,19 +937,19 @@ function gameLoop(timestamp) {
         return;
     }
 
-
     const delta =
         Math.min(
             .035,
-            (timestamp -
-                game.lastTime) /
-            1000
+            Math.max(
+                0,
+                (timestamp -
+                    game.lastTime) /
+                1000
+            )
         );
-
 
     game.lastTime =
         timestamp;
-
 
     if (!game.paused) {
 
@@ -876,9 +959,7 @@ function gameLoop(timestamp) {
 
     }
 
-
     drawGame();
-
 
     game.animationId =
         requestAnimationFrame(
@@ -893,6 +974,10 @@ function gameLoop(timestamp) {
    ========================================================= */
 
 function updateGame(delta) {
+
+    if (!game.player) {
+        return;
+    }
 
     updateControlledPlayer(
         delta
@@ -910,9 +995,36 @@ function updateGame(delta) {
         delta
     );
 
+    updatePlayerCollisions();
+
     keepPlayersInside();
 
+    updateCamera(delta);
+
+    updatePossession();
+
     updateMatchClock();
+
+    updateHUD();
+
+    if (
+        game.switchCooldown >
+        0
+    ) {
+
+        game.switchCooldown -=
+            delta;
+
+    }
+
+    if (
+        game.elapsed >=
+        game.matchDuration
+    ) {
+
+        finishMatch();
+
+    }
 
 }
 
@@ -923,17 +1035,18 @@ function updateGame(delta) {
 
 function updateControlledPlayer(delta) {
 
-    if (!game.player) {
+    const player =
+        game.player;
+
+    if (!player) {
         return;
     }
-
 
     const inputX =
         joystick.x;
 
     const inputY =
         joystick.y;
-
 
     const magnitude =
         Math.min(
@@ -944,50 +1057,114 @@ function updateControlledPlayer(delta) {
             )
         );
 
+    const moving =
+        magnitude > .05;
 
-    const sprintMultiplier =
-        matchState.sprint
-            ? 1.65
-            : 1;
+    let speed =
+        player.speed;
+
+    if (
+        matchState.sprint &&
+        player.stamina > 0
+    ) {
+
+        speed *= 1.55;
+
+        player.stamina =
+            Math.max(
+                0,
+                player.stamina -
+                20 * delta
+            );
+
+    } else if (
+        moving
+    ) {
+
+        player.stamina =
+            Math.max(
+                0,
+                player.stamina -
+                5 * delta
+            );
+
+    } else {
+
+        player.stamina =
+            Math.min(
+                100,
+                player.stamina +
+                10 * delta
+            );
+
+    }
 
 
-    game.player.vx =
-        inputX *
-        game.player.speed *
-        sprintMultiplier *
-        magnitude;
+    if (moving) {
+
+        player.vx =
+            inputX *
+            speed;
+
+        player.vy =
+            inputY *
+            speed;
+
+        player.facingX =
+            inputX;
+
+        player.facingY =
+            inputY;
+
+    } else {
+
+        player.vx *= .75;
+
+        player.vy *= .75;
+
+    }
 
 
-    game.player.vy =
-        inputY *
-        game.player.speed *
-        sprintMultiplier *
-        magnitude;
-
-
-    game.player.x +=
-        game.player.vx *
+    player.x +=
+        player.vx *
         delta;
 
-
-    game.player.y +=
-        game.player.vy *
+    player.y +=
+        player.vy *
         delta;
 
 
     if (
         game.ball &&
+        game.ball.owner !==
+            player &&
         distance(
-            game.player,
+            player,
             game.ball
-        ) < 35
+        ) <
+            player.radius +
+            game.ball.radius +
+            8
     ) {
 
-        game.ball.owner =
-            game.player;
+        takeBall(
+            player
+        );
 
-        game.ball.free =
-            false;
+    }
+
+
+    if (
+        game.ball &&
+        game.ball.owner ===
+            player
+    ) {
+
+        player.hasBall = true;
+
+    } else {
+
+        player.hasBall = false;
 
     }
 
@@ -995,34 +1172,141 @@ function updateControlledPlayer(delta) {
 
 
 /* =========================================================
-   TEAMMATES AI
+   AI TEAMMATES
    ========================================================= */
 
 function updateTeammates(delta) {
 
-    if (!game.ball) {
+    const ball =
+        game.ball;
+
+    if (!ball) {
         return;
     }
-
 
     game.teammates.forEach(
         player => {
 
-            const targetX =
-                game.ball.x -
-                70;
+            player.aiTimer +=
+                delta;
 
-            const targetY =
+            let targetX =
+                player.x;
+
+            let targetY =
                 player.y;
 
 
-            moveToward(
+            if (
+                ball.owner &&
+                ball.owner.team ===
+                    "home"
+            ) {
+
+                const attacking =
+                    ball.x >
+                    game.pitch.width *
+                    .45;
+
+                if (
+                    player.role ===
+                    "GK"
+                ) {
+
+                    targetX =
+                        game.pitch.x +
+                        55;
+
+                    targetY =
+                        ball.y;
+
+                } else {
+
+                    targetX =
+                        ball.x -
+                        100;
+
+                    targetY =
+                        player.y +
+                        Math.sin(
+                            player.aiTimer
+                        ) *
+                        30;
+
+                    if (
+                        player.role ===
+                        "LW"
+                    ) {
+
+                        targetY =
+                            game.pitch.y +
+                            game.pitch.height *
+                            .25;
+
+                    }
+
+                    if (
+                        player.role ===
+                        "RW"
+                    ) {
+
+                        targetY =
+                            game.pitch.y +
+                            game.pitch.height *
+                            .75;
+
+                    }
+
+                    if (
+                        !attacking
+                    ) {
+
+                        targetX =
+                            game.pitch.x +
+                            game.pitch.width *
+                            .22;
+
+                    }
+
+                }
+
+            } else {
+
+                targetX =
+                    game.pitch.x +
+                    game.pitch.width *
+                    .30;
+
+                targetY =
+                    game.pitch.y +
+                    game.pitch.height *
+                    .50;
+
+            }
+
+
+            aiMove(
                 player,
                 targetX,
                 targetY,
-                player.speed * .35,
-                delta
+                delta,
+                .75
             );
+
+
+            if (
+                ball.free &&
+                distance(
+                    player,
+                    ball
+                ) < 30
+            ) {
+
+                takeBall(
+                    player
+                );
+
+            }
 
         }
     );
@@ -1031,28 +1315,31 @@ function updateTeammates(delta) {
 
 
 /* =========================================================
-   OPPONENT AI
+   AI OPPONENTS
    ========================================================= */
 
 function updateOpponents(delta) {
 
-    if (!game.ball) {
+    const ball =
+        game.ball;
+
+    if (!ball) {
         return;
     }
-
 
     game.opponents.forEach(
         player => {
 
             let targetX =
-                game.ball.x;
+                player.x;
 
             let targetY =
-                game.ball.y;
+                player.y;
 
 
             if (
-                player.role === "GK"
+                player.role ===
+                "GK"
             ) {
 
                 targetX =
@@ -1061,41 +1348,105 @@ function updateOpponents(delta) {
                     45;
 
                 targetY =
-                    game.ball.y;
+                    clamp(
+                        ball.y,
+
+                        game.pitch.y +
+                        game.pitch.height *
+                        .35,
+
+                        game.pitch.y +
+                        game.pitch.height *
+                        .65
+                    );
+
+            } else if (
+                ball.owner &&
+                ball.owner.team ===
+                    "home"
+            ) {
+
+                targetX =
+                    ball.x +
+                    30;
+
+                targetY =
+                    ball.y;
+
+            } else {
+
+                targetX =
+                    game.pitch.x +
+                    game.pitch.width *
+                    .70;
+
+                if (
+                    player.role ===
+                    "LW"
+                ) {
+
+                    targetY =
+                        game.pitch.y +
+                        game.pitch.height *
+                        .25;
+
+                } else if (
+                    player.role ===
+                    "RW"
+                ) {
+
+                    targetY =
+                        game.pitch.y +
+                        game.pitch.height *
+                        .75;
+
+                } else {
+
+                    targetY =
+                        ball.y;
+
+                }
 
             }
 
 
-            moveToward(
+            aiMove(
                 player,
                 targetX,
                 targetY,
-                player.speed * .25,
-                delta
+                delta,
+                player.role ===
+                    "GK"
+                    ? .65
+                    : .80
             );
 
 
-            /* Simple opponent ball steal */
-
             if (
+                ball.free &&
                 distance(
                     player,
-                    game.ball
-                ) < 20
+                    ball
+                ) < 30
             ) {
 
-                if (
-                    Math.random() <
-                    .008
-                ) {
+                takeBall(
+                    player
+                );
 
-                    game.ball.owner =
-                        player;
+            }
 
-                    game.ball.free =
-                        false;
 
-                }
+            if (
+                ball.owner ===
+                    player &&
+                player.role !==
+                    "GK"
+            ) {
+
+                aiOpponentDecision(
+                    player
+                );
 
             }
 
@@ -1106,15 +1457,15 @@ function updateOpponents(delta) {
 
 
 /* =========================================================
-   MOVE AI
+   AI MOVEMENT
    ========================================================= */
 
-function moveToward(
+function aiMove(
     player,
     targetX,
     targetY,
-    speed,
-    delta
+    delta,
+    multiplier
 ) {
 
     const dx =
@@ -1125,29 +1476,100 @@ function moveToward(
         targetY -
         player.y;
 
-
-    const length =
+    const len =
         Math.sqrt(
             dx * dx +
             dy * dy
         );
 
+    if (len < 5) {
 
-    if (length < 3) {
+        player.vx *= .8;
+
+        player.vy *= .8;
+
+        return;
+
+    }
+
+    const nx =
+        dx / len;
+
+    const ny =
+        dy / len;
+
+    const speed =
+        player.speed *
+        multiplier;
+
+    player.vx =
+        nx *
+        speed;
+
+    player.vy =
+        ny *
+        speed;
+
+    player.facingX =
+        nx;
+
+    player.facingY =
+        ny;
+
+    player.x +=
+        player.vx *
+        delta;
+
+    player.y +=
+        player.vy *
+        delta;
+
+}
+
+
+/* =========================================================
+   AI DECISION
+   ========================================================= */
+
+function aiOpponentDecision(
+    player
+) {
+
+    const ball =
+        game.ball;
+
+    if (!ball) {
         return;
     }
 
+    const goalX =
+        game.pitch.x;
 
-    player.x +=
-        (dx / length) *
-        speed *
-        delta;
+    const goalY =
+        game.pitch.y +
+        game.pitch.height / 2;
+
+    const distanceToGoal =
+        Math.abs(
+            player.x -
+            goalX
+        );
 
 
-    player.y +=
-        (dy / length) *
-        speed *
-        delta;
+    if (
+        distanceToGoal <
+        game.pitch.width *
+        .30
+    ) {
+
+        aiKick(
+            player,
+            goalX,
+            goalY,
+            780
+        );
+
+    }
 
 }
 
@@ -1161,29 +1583,51 @@ function updateBall(delta) {
     const ball =
         game.ball;
 
-
     if (!ball) {
         return;
     }
 
 
-    if (
-        ball.owner
-    ) {
+    if (ball.owner) {
 
         const owner =
             ball.owner;
 
+        const facingLength =
+            Math.sqrt(
+                owner.facingX *
+                owner.facingX +
+                owner.facingY *
+                owner.facingY
+            ) || 1;
+
+        const fx =
+            owner.facingX /
+            facingLength;
+
+        const fy =
+            owner.facingY /
+            facingLength;
 
         ball.x =
-            owner.x + 18;
+            owner.x +
+            fx *
+            18;
 
         ball.y =
-            owner.y;
+            owner.y +
+            fy *
+            18;
 
-        ball.vx = 0;
+        ball.vx =
+            owner.vx;
 
-        ball.vy = 0;
+        ball.vy =
+            owner.vy;
+
+        ball.spin +=
+            delta *
+            8;
 
         return;
 
@@ -1201,25 +1645,394 @@ function updateBall(delta) {
 
     ball.vx *=
         Math.pow(
-            .12,
+            .035,
             delta
         );
 
     ball.vy *=
         Math.pow(
-            .12,
+            .035,
             delta
         );
 
 
-    checkGoal();
+    ball.spin +=
+        delta *
+        15;
 
+
+    const p =
+        game.pitch;
+
+
+    /* SIDELINE BOUNCE */
+
+    if (
+        ball.y -
+        ball.radius <
+        p.y
+    ) {
+
+        ball.y =
+            p.y +
+            ball.radius;
+
+        ball.vy =
+            Math.abs(
+                ball.vy
+            ) *
+            .65;
+
+    }
+
+
+    if (
+        ball.y +
+        ball.radius >
+        p.y +
+        p.height
+    ) {
+
+        ball.y =
+            p.y +
+            p.height -
+            ball.radius;
+
+        ball.vy =
+            -Math.abs(
+                ball.vy
+            ) *
+            .65;
+
+    }
+
+
+    checkGoal();
 
 }
 
 
 /* =========================================================
-   GOAL DETECTION
+   TAKE BALL
+   ========================================================= */
+
+function takeBall(
+    player
+) {
+
+    if (!game.ball) {
+        return;
+    }
+
+    if (
+        player.kickCooldown >
+        0
+    ) {
+        return;
+    }
+
+    if (
+        game.ball.owner ===
+        player
+    ) {
+        return;
+    }
+
+
+    game.ball.owner =
+        player;
+
+    game.ball.free =
+        false;
+
+    player.hasBall =
+        true;
+
+    game.ball.vx = 0;
+
+    game.ball.vy = 0;
+
+
+    game.ballStatus =
+        player.team ===
+            "home"
+            ? "YOU HAVE BALL"
+            : "OPPONENT BALL";
+
+    updateBallStatus();
+
+}
+
+
+/* =========================================================
+   KICK BALL
+   ========================================================= */
+
+function kickBall(
+    power,
+    angle
+) {
+
+    const ball =
+        game.ball;
+
+    if (!ball) {
+        return false;
+    }
+
+    if (
+        ball.owner !==
+        game.player
+    ) {
+
+        return false;
+
+    }
+
+
+    const player =
+        game.player;
+
+
+    if (
+        angle ===
+        undefined
+    ) {
+
+        angle =
+            Math.atan2(
+                player.facingY,
+                player.facingX
+            );
+
+    }
+
+
+    const fx =
+        Math.cos(angle);
+
+    const fy =
+        Math.sin(angle);
+
+
+    ball.owner = null;
+
+    ball.free = true;
+
+    ball.x =
+        player.x +
+        fx *
+        25;
+
+    ball.y =
+        player.y +
+        fy *
+        25;
+
+    ball.vx =
+        fx *
+        power +
+        player.vx *
+        .35;
+
+    ball.vy =
+        fy *
+        power +
+        player.vy *
+        .35;
+
+
+    player.hasBall =
+        false;
+
+    player.kickCooldown =
+        .25;
+
+
+    setTimeout(
+        () => {
+
+            if (player) {
+                player.kickCooldown =
+                    0;
+            }
+
+        },
+        250
+    );
+
+
+    return true;
+
+}
+
+
+/* =========================================================
+   AI KICK
+   ========================================================= */
+
+function aiKick(
+    player,
+    targetX,
+    targetY,
+    power
+) {
+
+    const ball =
+        game.ball;
+
+    if (
+        !ball ||
+        ball.owner !==
+        player
+    ) {
+        return;
+    }
+
+
+    const dx =
+        targetX -
+        player.x;
+
+    const dy =
+        targetY -
+        player.y;
+
+    const angle =
+        Math.atan2(
+            dy,
+            dx
+        );
+
+
+    ball.owner = null;
+
+    ball.free = true;
+
+    ball.x =
+        player.x +
+        Math.cos(angle) *
+        25;
+
+    ball.y =
+        player.y +
+        Math.sin(angle) *
+        25;
+
+    ball.vx =
+        Math.cos(angle) *
+        power;
+
+    ball.vy =
+        Math.sin(angle) *
+        power;
+
+
+    player.hasBall =
+        false;
+
+}
+
+
+/* =========================================================
+   PLAYER COLLISIONS
+   ========================================================= */
+
+function updatePlayerCollisions() {
+
+    const allPlayers = [
+
+        game.player,
+
+        ...game.teammates,
+
+        ...game.opponents
+
+    ].filter(Boolean);
+
+
+    for (
+        let i = 0;
+        i < allPlayers.length;
+        i++
+    ) {
+
+        for (
+            let j = i + 1;
+            j < allPlayers.length;
+            j++
+        ) {
+
+            const a =
+                allPlayers[i];
+
+            const b =
+                allPlayers[j];
+
+            const dx =
+                b.x -
+                a.x;
+
+            const dy =
+                b.y -
+                a.y;
+
+            const d =
+                Math.sqrt(
+                    dx * dx +
+                    dy * dy
+                );
+
+            const minDistance =
+                a.radius +
+                b.radius -
+                2;
+
+            if (
+                d > 0 &&
+                d < minDistance
+            ) {
+
+                const push =
+                    (
+                        minDistance -
+                        d
+                    ) /
+                    2;
+
+                const nx =
+                    dx / d;
+
+                const ny =
+                    dy / d;
+
+                a.x -=
+                    nx *
+                    push;
+
+                a.y -=
+                    ny *
+                    push;
+
+                b.x +=
+                    nx *
+                    push;
+
+                b.y +=
+                    ny *
+                    push;
+
+            }
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   GOALS
    ========================================================= */
 
 function checkGoal() {
@@ -1230,10 +2043,37 @@ function checkGoal() {
     const p =
         game.pitch;
 
+    if (!ball) {
+        return;
+    }
+
+
+    const goalHeight =
+        p.height *
+        .20;
+
+    const goalTop =
+        p.y +
+        (
+            p.height -
+            goalHeight
+        ) /
+        2;
+
+
+    const insideGoal =
+        ball.y >
+        goalTop &&
+        ball.y <
+        goalTop +
+        goalHeight;
+
 
     if (
         ball.x <
-        p.x - 20
+        p.x -
+        30 &&
+        insideGoal
     ) {
 
         game.awayScore++;
@@ -1241,7 +2081,7 @@ function checkGoal() {
         updateScoreboard();
 
         resetAfterGoal(
-            "⚽ OPPONENT SCORES!"
+            "🔴 OPPONENT SCORES!"
         );
 
         return;
@@ -1253,7 +2093,8 @@ function checkGoal() {
         ball.x >
         p.x +
         p.width +
-        20
+        30 &&
+        insideGoal
     ) {
 
         game.homeScore++;
@@ -1261,7 +2102,7 @@ function checkGoal() {
         updateScoreboard();
 
         resetAfterGoal(
-            "🔥 GOAL! KRISH SCORES!"
+            "🔥🔥 GOAL! KRISH SCORES!"
         );
 
     }
@@ -1277,9 +2118,24 @@ function resetAfterGoal(
     message
 ) {
 
+    if (!game.running) {
+        return;
+    }
+
     showActionMessage(
         message
     );
+
+
+    game.ball.owner =
+        null;
+
+    game.ball.free =
+        true;
+
+    game.ball.vx = 0;
+
+    game.ball.vy = 0;
 
 
     setTimeout(
@@ -1289,19 +2145,31 @@ function resetAfterGoal(
                 return;
             }
 
-
             const p =
                 game.pitch;
 
 
             game.player.x =
                 p.x +
-                p.width * .30;
+                p.width *
+                .30;
 
             game.player.y =
                 p.y +
-                p.height * .50;
+                p.height *
+                .50;
 
+
+            game.ball.x =
+                game.player.x +
+                20;
+
+            game.ball.y =
+                game.player.y;
+
+            game.ball.vx = 0;
+
+            game.ball.vy = 0;
 
             game.ball.owner =
                 game.player;
@@ -1309,20 +2177,93 @@ function resetAfterGoal(
             game.ball.free =
                 false;
 
-
-            game.ball.vx = 0;
-
-            game.ball.vy = 0;
+            updateBallStatus();
 
         },
-        900
+        1000
     );
 
 }
 
 
 /* =========================================================
-   DRAW GAME
+   CAMERA
+   ========================================================= */
+
+function updateCamera(delta) {
+
+    const target =
+        game.player;
+
+    if (!target) {
+        return;
+    }
+
+
+    const targetX =
+        target.x;
+
+    const targetY =
+        target.y;
+
+
+    game.camera.x +=
+        (
+            targetX -
+            game.camera.x
+        ) *
+        Math.min(
+            1,
+            delta *
+            5
+        );
+
+
+    game.camera.y +=
+        (
+            targetY -
+            game.camera.y
+        ) *
+        Math.min(
+            1,
+            delta *
+            5
+        );
+
+
+    const halfW =
+        game.width /
+        game.camera.zoom /
+        2;
+
+    const halfH =
+        game.height /
+        game.camera.zoom /
+        2;
+
+
+    game.camera.x =
+        clamp(
+            game.camera.x,
+            halfW,
+            game.pitch.width -
+            halfW
+        );
+
+
+    game.camera.y =
+        clamp(
+            game.camera.y,
+            halfH,
+            game.pitch.height -
+            halfH
+        );
+
+}
+
+
+/* =========================================================
+   DRAW
    ========================================================= */
 
 function drawGame() {
@@ -1330,14 +2271,9 @@ function drawGame() {
     const ctx =
         game.ctx;
 
-
     if (!ctx) {
         return;
     }
-
-
-    const p =
-        game.pitch;
 
 
     ctx.clearRect(
@@ -1348,15 +2284,40 @@ function drawGame() {
     );
 
 
+    ctx.save();
+
+
+    const zoom =
+        game.camera.zoom;
+
+
+    ctx.translate(
+        game.width / 2,
+        game.height / 2
+    );
+
+
+    ctx.scale(
+        zoom,
+        zoom
+    );
+
+
+    ctx.translate(
+        -game.camera.x,
+        -game.camera.y
+    );
+
+
     drawPitch(
         ctx,
-        p
+        game.pitch
     );
 
 
     drawGoals(
         ctx,
-        p
+        game.pitch
     );
 
 
@@ -1393,11 +2354,14 @@ function drawGame() {
         game.ball
     );
 
+
+    ctx.restore();
+
 }
 
 
 /* =========================================================
-   PITCH
+   PITCH DRAWING
    ========================================================= */
 
 function drawPitch(
@@ -1405,20 +2369,16 @@ function drawPitch(
     p
 ) {
 
-    /* Grass */
-
     ctx.fillStyle =
         "#08752f";
 
     ctx.fillRect(
-        0,
-        0,
-        game.width,
-        game.height
+        p.x - 500,
+        p.y - 500,
+        p.width + 1000,
+        p.height + 1000
     );
 
-
-    /* Pitch */
 
     ctx.fillStyle =
         "#16883b";
@@ -1431,15 +2391,16 @@ function drawPitch(
     );
 
 
-    /* Grass stripes */
+    /* GRASS STRIPES */
 
     const stripeWidth =
-        p.width / 10;
+        p.width /
+        20;
 
 
     for (
         let i = 0;
-        i < 10;
+        i < 20;
         i++
     ) {
 
@@ -1467,12 +2428,12 @@ function drawPitch(
     }
 
 
-    /* Outer line */
+    /* OUTER LINE */
 
     ctx.strokeStyle =
-        "rgba(255,255,255,.9)";
+        "rgba(255,255,255,.95)";
 
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 5;
 
     ctx.strokeRect(
         p.x,
@@ -1482,21 +2443,19 @@ function drawPitch(
     );
 
 
-    /* Centre line */
+    /* HALF WAY */
 
     ctx.beginPath();
 
     ctx.moveTo(
         p.x +
         p.width / 2,
-
         p.y
     );
 
     ctx.lineTo(
         p.x +
         p.width / 2,
-
         p.y +
         p.height
     );
@@ -1504,7 +2463,7 @@ function drawPitch(
     ctx.stroke();
 
 
-    /* Centre circle */
+    /* CENTER CIRCLE */
 
     ctx.beginPath();
 
@@ -1516,7 +2475,7 @@ function drawPitch(
         p.height / 2,
 
         Math.min(
-            p.height * .16,
+            p.height * .15,
             p.width * .10
         ),
 
@@ -1527,8 +2486,6 @@ function drawPitch(
     ctx.stroke();
 
 
-    /* Centre spot */
-
     ctx.fillStyle =
         "white";
 
@@ -1537,6 +2494,113 @@ function drawPitch(
     ctx.arc(
         p.x +
         p.width / 2,
+
+        p.y +
+        p.height / 2,
+
+        5,
+
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fill();
+
+
+    /* PENALTY BOXES */
+
+    const boxWidth =
+        p.width *
+        .13;
+
+    const boxHeight =
+        p.height *
+        .46;
+
+
+    ctx.strokeRect(
+        p.x,
+
+        p.y +
+        (
+            p.height -
+            boxHeight
+        ) /
+        2,
+
+        boxWidth,
+        boxHeight
+    );
+
+
+    ctx.strokeRect(
+        p.x +
+        p.width -
+        boxWidth,
+
+        p.y +
+        (
+            p.height -
+            boxHeight
+        ) /
+        2,
+
+        boxWidth,
+        boxHeight
+    );
+
+
+    /* SIX YARD BOXES */
+
+    const smallWidth =
+        p.width *
+        .055;
+
+    const smallHeight =
+        p.height *
+        .25;
+
+
+    ctx.strokeRect(
+        p.x,
+
+        p.y +
+        (
+            p.height -
+            smallHeight
+        ) /
+        2,
+
+        smallWidth,
+        smallHeight
+    );
+
+
+    ctx.strokeRect(
+        p.x +
+        p.width -
+        smallWidth,
+
+        p.y +
+        (
+            p.height -
+            smallHeight
+        ) /
+        2,
+
+        smallWidth,
+        smallHeight
+    );
+
+
+    /* PENALTY SPOTS */
+
+    ctx.beginPath();
+
+    ctx.arc(
+        p.x +
+        boxWidth *
+        .72,
 
         p.y +
         p.height / 2,
@@ -1550,109 +2614,18 @@ function drawPitch(
     ctx.fill();
 
 
-    /* Penalty areas */
-
-    const boxWidth =
-        p.width * .14;
-
-    const boxHeight =
-        p.height * .48;
-
-
-    ctx.strokeRect(
-        p.x,
-        p.y +
-        (p.height -
-            boxHeight) / 2,
-
-        boxWidth,
-        boxHeight
-    );
-
-
-    ctx.strokeRect(
-        p.x +
-        p.width -
-        boxWidth,
-
-        p.y +
-        (p.height -
-            boxHeight) / 2,
-
-        boxWidth,
-        boxHeight
-    );
-
-
-    /* Six-yard boxes */
-
-    const smallWidth =
-        p.width * .055;
-
-    const smallHeight =
-        p.height * .25;
-
-
-    ctx.strokeRect(
-        p.x,
-        p.y +
-        (p.height -
-            smallHeight) / 2,
-
-        smallWidth,
-        smallHeight
-    );
-
-
-    ctx.strokeRect(
-        p.x +
-        p.width -
-        smallWidth,
-
-        p.y +
-        (p.height -
-            smallHeight) / 2,
-
-        smallWidth,
-        smallHeight
-    );
-
-
-    /* Penalty spots */
-
-    ctx.fillStyle =
-        "white";
-
-
-    ctx.beginPath();
-
-    ctx.arc(
-        p.x +
-        boxWidth * .72,
-
-        p.y +
-        p.height / 2,
-
-        3,
-
-        0,
-        Math.PI * 2
-    );
-
-    ctx.fill();
-
-
     ctx.beginPath();
 
     ctx.arc(
         p.x +
         p.width -
-        boxWidth * .72,
+        boxWidth *
+        .72,
 
         p.y +
         p.height / 2,
 
-        3,
+        4,
 
         0,
         Math.PI * 2
@@ -1673,32 +2646,35 @@ function drawGoals(
 ) {
 
     const goalHeight =
-        p.height * .18;
-
+        p.height *
+        .20;
 
     const goalY =
         p.y +
-        (p.height -
-            goalHeight) / 2;
+        (
+            p.height -
+            goalHeight
+        ) /
+        2;
 
 
     ctx.strokeStyle =
         "#ffffff";
 
-    ctx.lineWidth = 5;
+    ctx.lineWidth = 7;
 
 
-    /* Left goal */
+    /* LEFT GOAL */
 
     ctx.strokeRect(
-        p.x - 22,
+        p.x - 35,
         goalY,
-        22,
+        35,
         goalHeight
     );
 
 
-    /* Right goal */
+    /* RIGHT GOAL */
 
     ctx.strokeRect(
         p.x +
@@ -1706,16 +2682,67 @@ function drawGoals(
 
         goalY,
 
-        22,
+        35,
 
         goalHeight
     );
+
+
+    /* NET LINES */
+
+    ctx.lineWidth = 1;
+
+    ctx.strokeStyle =
+        "rgba(255,255,255,.30)";
+
+
+    for (
+        let y = goalY;
+        y < goalY + goalHeight;
+        y += 12
+    ) {
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            p.x - 35,
+            y
+        );
+
+        ctx.lineTo(
+            p.x,
+            y
+        );
+
+        ctx.stroke();
+
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            p.x +
+            p.width,
+
+            y
+        );
+
+        ctx.lineTo(
+            p.x +
+            p.width +
+            35,
+
+            y
+        );
+
+        ctx.stroke();
+
+    }
 
 }
 
 
 /* =========================================================
-   DRAW PLAYER
+   PLAYER DRAWING
    ========================================================= */
 
 function drawPlayer(
@@ -1723,22 +2750,49 @@ function drawPlayer(
     player
 ) {
 
+    if (!player) {
+        return;
+    }
+
+
     const home =
-        player.team === "home";
+        player.team ===
+        "home";
 
 
-    /* Shadow */
+    const moving =
+        Math.abs(
+            player.vx
+        ) +
+        Math.abs(
+            player.vy
+        ) >
+        20;
+
+
+    const bob =
+        moving
+            ? Math.sin(
+                performance.now() /
+                90 +
+                player.bob
+            ) *
+            2
+            : 0;
+
+
+    /* SHADOW */
 
     ctx.fillStyle =
-        "rgba(0,0,0,.25)";
+        "rgba(0,0,0,.30)";
 
     ctx.beginPath();
 
     ctx.ellipse(
         player.x,
-        player.y + 13,
-        13,
-        5,
+        player.y + 18,
+        16,
+        6,
         0,
         0,
         Math.PI * 2
@@ -1747,20 +2801,154 @@ function drawPlayer(
     ctx.fill();
 
 
-    /* Body */
+    ctx.save();
 
-    ctx.fillStyle =
-        home
-            ? "#168cff"
-            : "#ef3340";
+    ctx.translate(
+        player.x,
+        player.y + bob
+    );
+
+
+    /* LEGS */
+
+    ctx.strokeStyle =
+        "#17202a";
+
+    ctx.lineWidth = 5;
+
+    ctx.lineCap =
+        "round";
 
 
     ctx.beginPath();
 
+    ctx.moveTo(
+        -5,
+        8
+    );
+
+    ctx.lineTo(
+        -8,
+        19
+    );
+
+    ctx.stroke();
+
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        5,
+        8
+    );
+
+    ctx.lineTo(
+        8,
+        19
+    );
+
+    ctx.stroke();
+
+
+    /* BODY */
+
+    ctx.fillStyle =
+        home
+            ? "#168cff"
+            : "#e52f42";
+
+
+    if (
+        player.role ===
+        "GK"
+    ) {
+
+        ctx.fillStyle =
+            home
+                ? "#ffd23f"
+                : "#9b59ff";
+
+    }
+
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        -11,
+        -6,
+        22,
+        22,
+        6
+    );
+
+    ctx.fill();
+
+
+    /* SHIRT DETAIL */
+
+    ctx.fillStyle =
+        "rgba(255,255,255,.20)";
+
+    ctx.fillRect(
+        -8,
+        -4,
+        16,
+        4
+    );
+
+
+    /* ARMS */
+
+    ctx.strokeStyle =
+        player.role ===
+            "GK"
+            ? "#f1c6a8"
+            : "#d9a987";
+
+    ctx.lineWidth = 4;
+
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        -10,
+        -1
+    );
+
+    ctx.lineTo(
+        -16,
+        7
+    );
+
+    ctx.stroke();
+
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        10,
+        -1
+    );
+
+    ctx.lineTo(
+        16,
+        7
+    );
+
+    ctx.stroke();
+
+
+    /* HEAD */
+
+    ctx.fillStyle =
+        "#d9a987";
+
+    ctx.beginPath();
+
     ctx.arc(
-        player.x,
-        player.y,
-        player.radius,
+        0,
+        -13,
+        8,
         0,
         Math.PI * 2
     );
@@ -1768,7 +2956,49 @@ function drawPlayer(
     ctx.fill();
 
 
-    /* Controlled ring */
+    /* HAIR */
+
+    ctx.fillStyle =
+        "#17120e";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,
+        -16,
+        8,
+        Math.PI,
+        Math.PI * 2
+    );
+
+    ctx.fill();
+
+
+    /* NUMBER */
+
+    ctx.fillStyle =
+        "white";
+
+    ctx.font =
+        "bold 9px Arial";
+
+    ctx.textAlign =
+        "center";
+
+    ctx.textBaseline =
+        "middle";
+
+    ctx.fillText(
+        player.number,
+        0,
+        5
+    );
+
+
+    ctx.restore();
+
+
+    /* CONTROLLED PLAYER RING */
 
     if (
         player.controlled
@@ -1784,7 +3014,61 @@ function drawPlayer(
         ctx.arc(
             player.x,
             player.y,
-            player.radius + 6,
+            player.radius +
+            9,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.stroke();
+
+
+        ctx.fillStyle =
+            "#ffe600";
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            player.x,
+            player.y -
+            32
+        );
+
+        ctx.lineTo(
+            player.x - 6,
+            player.y - 23
+        );
+
+        ctx.lineTo(
+            player.x + 6,
+            player.y - 23
+        );
+
+        ctx.closePath();
+
+        ctx.fill();
+
+    }
+
+
+    /* BALL POSSESSION MARKER */
+
+    if (
+        player.hasBall
+    ) {
+
+        ctx.strokeStyle =
+            "rgba(255,255,255,.65)";
+
+        ctx.lineWidth = 2;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            player.x,
+            player.y,
+            player.radius +
+            4,
             0,
             Math.PI * 2
         );
@@ -1793,33 +3077,11 @@ function drawPlayer(
 
     }
 
-
-    /* Player number */
-
-    ctx.fillStyle =
-        "white";
-
-    ctx.font =
-        "bold 9px Arial";
-
-    ctx.textAlign =
-        "center";
-
-    ctx.textBaseline =
-        "middle";
-
-
-    ctx.fillText(
-        player.number,
-        player.x,
-        player.y
-    );
-
 }
 
 
 /* =========================================================
-   BALL DRAW
+   BALL DRAWING
    ========================================================= */
 
 function drawBall(
@@ -1832,16 +3094,17 @@ function drawBall(
     }
 
 
-    ctx.fillStyle =
-        "rgba(0,0,0,.3)";
+    /* SHADOW */
 
+    ctx.fillStyle =
+        "rgba(0,0,0,.35)";
 
     ctx.beginPath();
 
     ctx.ellipse(
         ball.x,
-        ball.y + 6,
-        7,
+        ball.y + 7,
+        8,
         3,
         0,
         0,
@@ -1851,15 +3114,28 @@ function drawBall(
     ctx.fill();
 
 
+    /* BALL */
+
+    ctx.save();
+
+    ctx.translate(
+        ball.x,
+        ball.y
+    );
+
+    ctx.rotate(
+        ball.spin
+    );
+
+
     ctx.fillStyle =
         "white";
-
 
     ctx.beginPath();
 
     ctx.arc(
-        ball.x,
-        ball.y,
+        0,
+        0,
         ball.radius,
         0,
         Math.PI * 2
@@ -1876,7 +3152,7 @@ function drawBall(
     ctx.stroke();
 
 
-    /* Black centre */
+    /* BALL PATTERN */
 
     ctx.fillStyle =
         "#111";
@@ -1884,65 +3160,268 @@ function drawBall(
     ctx.beginPath();
 
     ctx.arc(
-        ball.x,
-        ball.y,
-        2,
+        0,
+        0,
+        2.3,
         0,
         Math.PI * 2
     );
 
     ctx.fill();
 
+
+    for (
+        let i = 0;
+        i < 5;
+        i++
+    ) {
+
+        const angle =
+            i *
+            Math.PI *
+            2 /
+            5;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            Math.cos(angle) *
+            4,
+
+            Math.sin(angle) *
+            4,
+
+            1.2,
+
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fill();
+
+    }
+
+
+    ctx.restore();
+
 }
 
 
 /* =========================================================
-   BALL KICK
+   PLAYER SWITCHING
    ========================================================= */
 
-function kickBall(
-    power,
-    direction
-) {
+function switchPlayer() {
 
-    const ball =
-        game.ball;
+    if (
+        game.switchCooldown >
+        0
+    ) {
+        return;
+    }
 
 
-    if (!ball) {
+    const candidates =
+        game.teammates.filter(
+            player =>
+                player.role !==
+                "GK"
+        );
+
+
+    if (
+        candidates.length ===
+        0
+    ) {
+        return;
+    }
+
+
+    let closest =
+        candidates[0];
+
+    let closestDistance =
+        Infinity;
+
+
+    candidates.forEach(
+        player => {
+
+            const d =
+                distance(
+                    player,
+                    game.ball
+                );
+
+            if (
+                d <
+                closestDistance
+            ) {
+
+                closest =
+                    player;
+
+                closestDistance =
+                    d;
+
+            }
+
+        }
+    );
+
+
+    game.player.controlled =
+        false;
+
+    game.player.hasBall =
+        game.ball.owner ===
+        game.player;
+
+
+    game.player =
+        closest;
+
+    game.player.controlled =
+        true;
+
+
+    if (
+        game.ball.owner ===
+        game.player
+    ) {
+
+        game.player.hasBall =
+            true;
+
+    }
+
+
+    game.switchCooldown =
+        .5;
+
+
+    showActionMessage(
+        "🔄 PLAYER SWITCH"
+    );
+
+}
+
+
+/* =========================================================
+   SKILL
+   ========================================================= */
+
+function performSkill() {
+
+    if (
+        !game.player ||
+        game.paused
+    ) {
+        return;
+    }
+
+
+    const player =
+        game.player;
+
+
+    let fx =
+        player.facingX;
+
+    let fy =
+        player.facingY;
+
+
+    const len =
+        Math.sqrt(
+            fx * fx +
+            fy * fy
+        ) || 1;
+
+
+    fx /= len;
+
+    fy /= len;
+
+
+    player.x +=
+        fx *
+        55;
+
+    player.y +=
+        fy *
+        55;
+
+
+    player.stamina =
+        Math.max(
+            0,
+            player.stamina -
+            4
+        );
+
+
+    keepPlayersInside();
+
+
+    showActionMessage(
+        "C — SKILL!"
+    );
+
+}
+
+
+/* =========================================================
+   SPRINT
+   ========================================================= */
+
+function performSprint() {
+
+    if (
+        !game.player
+    ) {
         return;
     }
 
 
     if (
-        ball.owner !==
-        game.player
+        game.player.stamina <
+        8
     ) {
+
+        showActionMessage(
+            "LOW STAMINA"
+        );
 
         return;
 
     }
 
 
-    const angle =
-        direction !== undefined
-            ? direction
-            : 0;
+    matchState.sprint =
+        true;
 
 
-    ball.owner = null;
-
-    ball.free = true;
-
-
-    ball.vx =
-        Math.cos(angle) *
-        power;
+    showActionMessage(
+        "C — SPRINT!"
+    );
 
 
-    ball.vy =
-        Math.sin(angle) *
-        power;
+    clearTimeout(
+        sprintTimer
+    );
+
+
+    sprintTimer =
+        setTimeout(
+            () => {
+
+                matchState.sprint =
+                    false;
+
+            },
+            800
+        );
 
 }
 
@@ -1972,19 +3451,51 @@ function performPass() {
     }
 
 
-    const angle =
-        getMovementAngle();
+    const teammate =
+        findBestTeammate();
 
 
-    kickBall(
-        470,
-        angle
-    );
+    if (teammate) {
+
+        const angle =
+            Math.atan2(
+                teammate.y -
+                game.player.y,
+
+                teammate.x -
+                game.player.x
+            );
 
 
-    showActionMessage(
-        "A — PASS"
-    );
+        game.player.facingX =
+            Math.cos(angle);
+
+        game.player.facingY =
+            Math.sin(angle);
+
+
+        kickBall(
+            460,
+            angle
+        );
+
+
+        showActionMessage(
+            "A — PASS"
+        );
+
+    } else {
+
+        kickBall(
+            460,
+            getMovementAngle()
+        );
+
+        showActionMessage(
+            "A — PASS"
+        );
+
+    }
 
 }
 
@@ -1999,23 +3510,124 @@ function performThroughPass() {
         game.ball.owner !==
         game.player
     ) {
+
+        showActionMessage(
+            "NO BALL"
+        );
+
         return;
+
     }
 
 
-    const angle =
+    const teammate =
+        findBestTeammate();
+
+
+    let angle =
         getMovementAngle();
 
 
+    if (teammate) {
+
+        angle =
+            Math.atan2(
+                teammate.y -
+                game.player.y,
+
+                teammate.x -
+                game.player.x
+            );
+
+    }
+
+
     kickBall(
-        650,
+        700,
         angle
     );
 
 
     showActionMessage(
-        "A — THROUGH PASS"
+        "A — THROUGH PASS!"
     );
+
+}
+
+
+/* =========================================================
+   FIND TEAMMATE
+   ========================================================= */
+
+function findBestTeammate() {
+
+    if (
+        !game.player
+    ) {
+        return null;
+    }
+
+
+    let best = null;
+
+    let bestScore =
+        -Infinity;
+
+
+    game.teammates.forEach(
+        teammate => {
+
+            const d =
+                distance(
+                    game.player,
+                    teammate
+                );
+
+
+            if (
+                d <
+                80 ||
+                d >
+                500
+            ) {
+                return;
+            }
+
+
+            let score =
+                600 -
+                d;
+
+
+            if (
+                teammate.x >
+                game.player.x
+            ) {
+
+                score +=
+                    120;
+
+            }
+
+
+            if (
+                score >
+                bestScore
+            ) {
+
+                bestScore =
+                    score;
+
+                best =
+                    teammate;
+
+            }
+
+        }
+    );
+
+
+    return best;
 
 }
 
@@ -2040,8 +3652,35 @@ function performShoot() {
     }
 
 
+    const p =
+        game.pitch;
+
+
+    const goalX =
+        p.x +
+        p.width;
+
+
+    const goalY =
+        p.y +
+        p.height / 2;
+
+
     const angle =
-        getMovementAngle();
+        Math.atan2(
+            goalY -
+            game.player.y,
+
+            goalX -
+            game.player.x
+        );
+
+
+    game.player.facingX =
+        Math.cos(angle);
+
+    game.player.facingY =
+        Math.sin(angle);
 
 
     kickBall(
@@ -2051,7 +3690,7 @@ function performShoot() {
 
 
     showActionMessage(
-        "B — SHOOT!"
+        "🔥 B — SHOOT!"
     );
 
 }
@@ -2067,85 +3706,56 @@ function performPowerShot() {
         game.ball.owner !==
         game.player
     ) {
+
+        showActionMessage(
+            "NO BALL"
+        );
+
         return;
+
     }
 
 
+    const p =
+        game.pitch;
+
+
+    const goalX =
+        p.x +
+        p.width;
+
+
+    const goalY =
+        p.y +
+        p.height / 2;
+
+
     const angle =
-        getMovementAngle();
+        Math.atan2(
+            goalY -
+            game.player.y,
+
+            goalX -
+            game.player.x
+        );
 
 
     kickBall(
-        1150,
+        1200,
         angle
     );
 
 
-    showActionMessage(
-        "B — POWER SHOT!"
-    );
-
-}
-
-
-/* =========================================================
-   SKILL
-   ========================================================= */
-
-function performSkill() {
-
-    if (!game.player) {
-        return;
-    }
-
-
-    const angle =
-        getMovementAngle();
-
-
-    game.player.x +=
-        Math.cos(angle) *
-        45;
-
-
-    game.player.y +=
-        Math.sin(angle) *
-        45;
-
-
-    keepPlayersInside();
+    game.player.stamina =
+        Math.max(
+            0,
+            game.player.stamina -
+            8
+        );
 
 
     showActionMessage(
-        "C — SKILL"
-    );
-
-}
-
-
-/* =========================================================
-   SPRINT
-   ========================================================= */
-
-function performSprint() {
-
-    matchState.sprint =
-        true;
-
-
-    showActionMessage(
-        "C — SPRINT"
-    );
-
-
-    setTimeout(
-        () => {
-
-            matchState.sprint =
-                false;
-
-        },
-        700
+        "💥 B — POWER SHOT!"
     );
 
 }
@@ -2169,6 +3779,18 @@ function getMovementAngle() {
         return Math.atan2(
             joystick.y,
             joystick.x
+        );
+
+    }
+
+
+    if (
+        game.player
+    ) {
+
+        return Math.atan2(
+            game.player.facingY,
+            game.player.facingX
         );
 
     }
@@ -2204,28 +3826,22 @@ function keepPlayersInside() {
         player => {
 
             player.x =
-                Math.max(
-                    p.x + 8,
-                    Math.min(
-                        p.x +
-                        p.width -
-                        8,
-
-                        player.x
-                    )
+                clamp(
+                    player.x,
+                    p.x + 10,
+                    p.x +
+                    p.width -
+                    10
                 );
 
 
             player.y =
-                Math.max(
-                    p.y + 8,
-                    Math.min(
-                        p.y +
-                        p.height -
-                        8,
-
-                        player.y
-                    )
+                clamp(
+                    player.y,
+                    p.y + 10,
+                    p.y +
+                    p.height -
+                    10
                 );
 
         }
@@ -2235,26 +3851,620 @@ function keepPlayersInside() {
 
 
 /* =========================================================
-   DISTANCE
+   POSSESSION
    ========================================================= */
 
-function distance(a, b) {
+function updatePossession() {
 
-    return Math.sqrt(
+    const allPlayers = [
 
-        Math.pow(
-            a.x - b.x,
-            2
-        )
+        game.player,
+
+        ...game.teammates,
+
+        ...game.opponents
+
+    ].filter(Boolean);
+
+
+    let home =
+        0;
+
+    let away =
+        0;
+
+
+    if (
+        game.ball &&
+        game.ball.owner
+    ) {
+
+        if (
+            game.ball.owner.team ===
+            "home"
+        ) {
+
+            home = 1;
+
+        } else {
+
+            away = 1;
+
+        }
+
+    }
+
+
+    game.possessionHome =
+        game.possessionHome *
+        .98 +
+        home *
+        .02;
+
+
+    game.possessionAway =
+        game.possessionAway *
+        .98 +
+        away *
+        .02;
+
+
+    /* Keep values readable */
+
+    if (
+        allPlayers.length ===
+        0
+    ) {
+        return;
+    }
+
+}
+
+
+/* =========================================================
+   HUD
+   ========================================================= */
+
+function updateHUD() {
+
+    if (
+        game.player
+    ) {
+
+        const speed =
+            Math.round(
+                Math.sqrt(
+                    game.player.vx *
+                    game.player.vx +
+                    game.player.vy *
+                    game.player.vy
+                )
+            );
+
+
+        const speedElement =
+            document.getElementById(
+                "playerSpeedDisplay"
+            );
+
+
+        const staminaElement =
+            document.getElementById(
+                "staminaDisplay"
+            );
+
+
+        const possessionElement =
+            document.getElementById(
+                "possessionDisplay"
+            );
+
+
+        if (speedElement) {
+
+            speedElement.textContent =
+                speed;
+
+        }
+
+
+        if (staminaElement) {
+
+            staminaElement.textContent =
+                Math.round(
+                    game.player.stamina
+                );
+
+        }
+
+
+        if (possessionElement) {
+
+            possessionElement.textContent =
+                Math.round(
+                    game.possessionHome *
+                    100
+                ) +
+                "%";
+
+        }
+
+    }
+
+
+    updateBallStatus();
+
+}
+
+
+/* =========================================================
+   BALL STATUS
+   ========================================================= */
+
+function updateBallStatus() {
+
+    const element =
+        document.getElementById(
+            "ballStatus"
+        );
+
+    if (!element) {
+        return;
+    }
+
+
+    if (
+        game.ball &&
+        game.ball.owner
+    ) {
+
+        if (
+            game.ball.owner ===
+            game.player
+        ) {
+
+            element.textContent =
+                "⚽ YOUR BALL";
+
+        } else if (
+            game.ball.owner.team ===
+            "home"
+        ) {
+
+            element.textContent =
+                "⚽ TEAM BALL";
+
+        } else {
+
+            element.textContent =
+                "🔴 OPPONENT BALL";
+
+        }
+
+    } else {
+
+        element.textContent =
+            "⚽ FREE BALL";
+
+    }
+
+}
+
+
+/* =========================================================
+   SCOREBOARD
+   ========================================================= */
+
+function updateScoreboard() {
+
+    const home =
+        document.getElementById(
+            "homeScore"
+        );
+
+    const away =
+        document.getElementById(
+            "awayScore"
+        );
+
+    const homeName =
+        document.getElementById(
+            "homeTeamName"
+        );
+
+
+    if (home) {
+
+        home.textContent =
+            game.homeScore;
+
+    }
+
+
+    if (away) {
+
+        away.textContent =
+            game.awayScore;
+
+    }
+
+
+    if (homeName) {
+
+        homeName.textContent =
+            game.selectedTeam;
+
+    }
+
+}
+
+
+/* =========================================================
+   MATCH CLOCK
+   ========================================================= */
+
+function updateMatchClock() {
+
+    const element =
+        document.getElementById(
+            "matchTime"
+        );
+
+    if (!element) {
+        return;
+    }
+
+
+    const seconds =
+        Math.floor(
+            game.elapsed
+        );
+
+
+    const minutes =
+        Math.floor(
+            seconds / 60
+        );
+
+
+    const remaining =
+        seconds %
+        60;
+
+
+    element.textContent =
+
+        String(minutes)
+            .padStart(2, "0")
 
         +
 
-        Math.pow(
-            a.y - b.y,
-            2
-        )
+        ":" +
 
+        String(remaining)
+            .padStart(2, "0");
+
+}
+
+
+/* =========================================================
+   FULL TIME
+   ========================================================= */
+
+function finishMatch() {
+
+    if (
+        !game.running
+    ) {
+        return;
+    }
+
+
+    game.running =
+        false;
+
+
+    if (
+        game.animationId
+    ) {
+
+        cancelAnimationFrame(
+            game.animationId
+        );
+
+        game.animationId =
+            null;
+
+    }
+
+
+    const finalHome =
+        document.getElementById(
+            "finalHomeScore"
+        );
+
+
+    const finalAway =
+        document.getElementById(
+            "finalAwayScore"
+        );
+
+
+    const result =
+        document.getElementById(
+            "matchResult"
+        );
+
+
+    if (finalHome) {
+
+        finalHome.textContent =
+            game.homeScore;
+
+    }
+
+
+    if (finalAway) {
+
+        finalAway.textContent =
+            game.awayScore;
+
+    }
+
+
+    if (result) {
+
+        if (
+            game.homeScore >
+            game.awayScore
+        ) {
+
+            result.textContent =
+                "🔥 KRISH WINS!";
+
+        } else if (
+            game.homeScore <
+            game.awayScore
+        ) {
+
+            result.textContent =
+                "🔴 DEFEAT";
+
+        } else {
+
+            result.textContent =
+                "🤝 DRAW";
+
+        }
+
+    }
+
+
+    const overlay =
+        document.getElementById(
+            "gameOverOverlay"
+        );
+
+
+    if (overlay) {
+
+        overlay.classList.remove(
+            "hidden"
+        );
+
+    }
+
+
+    showActionMessage(
+        "FULL TIME"
     );
+
+}
+
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+let messageTimer =
+    null;
+
+
+function showActionMessage(
+    message
+) {
+
+    const element =
+        document.getElementById(
+            "actionMessage"
+        );
+
+
+    if (!element) {
+        return;
+    }
+
+
+    element.textContent =
+        message;
+
+
+    clearTimeout(
+        messageTimer
+    );
+
+
+    messageTimer =
+        setTimeout(
+            () => {
+
+                element.textContent =
+                    "READY";
+
+            },
+            1200
+        );
+
+}
+
+
+/* =========================================================
+   PAUSE
+   ========================================================= */
+
+function togglePause() {
+
+    if (!game.running) {
+        return;
+    }
+
+
+    game.paused =
+        !game.paused;
+
+
+    const panel =
+        document.getElementById(
+            "pausePanel"
+        );
+
+
+    if (
+        game.paused
+    ) {
+
+        panel.classList.remove(
+            "hidden"
+        );
+
+    } else {
+
+        panel.classList.add(
+            "hidden"
+        );
+
+        game.lastTime =
+            performance.now();
+
+    }
+
+}
+
+
+/* =========================================================
+   RESTART
+   ========================================================= */
+
+function restartMatch() {
+
+    const overlay =
+        document.getElementById(
+            "gameOverOverlay"
+        );
+
+
+    if (overlay) {
+
+        overlay.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+    createMatch();
+
+
+    game.running =
+        true;
+
+    game.paused =
+        false;
+
+    game.lastTime =
+        performance.now();
+
+
+    const pausePanel =
+        document.getElementById(
+            "pausePanel"
+        );
+
+
+    if (pausePanel) {
+
+        pausePanel.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+    showActionMessage(
+        "🔄 MATCH RESTARTED"
+    );
+
+
+    startGameLoop();
+
+}
+
+
+/* =========================================================
+   EXIT
+   ========================================================= */
+
+function exitMatch() {
+
+    game.running =
+        false;
+
+    game.paused =
+        false;
+
+
+    if (
+        game.animationId
+    ) {
+
+        cancelAnimationFrame(
+            game.animationId
+        );
+
+        game.animationId =
+            null;
+
+    }
+
+
+    const pausePanel =
+        document.getElementById(
+            "pausePanel"
+        );
+
+
+    if (pausePanel) {
+
+        pausePanel.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+    const gameOver =
+        document.getElementById(
+            "gameOverOverlay"
+        );
+
+
+    if (gameOver) {
+
+        gameOver.classList.add(
+            "hidden"
+        );
+
+    }
 
 }
 
@@ -2283,13 +4493,17 @@ function setupJoystick() {
             "joystickBase"
         );
 
+
     const knob =
         document.getElementById(
             "joystickKnob"
         );
 
 
-    if (!base || !knob) {
+    if (
+        !base ||
+        !knob
+    ) {
         return;
     }
 
@@ -2300,11 +4514,14 @@ function setupJoystick() {
 
             event.preventDefault();
 
+
             joystick.active =
                 true;
 
+
             joystick.pointerId =
                 event.pointerId;
+
 
             try {
 
@@ -2313,6 +4530,7 @@ function setupJoystick() {
                 );
 
             } catch (error) {}
+
 
             updateJoystick(
                 event,
@@ -2358,10 +4576,9 @@ function setupJoystick() {
 
             if (
                 joystick.pointerId !==
-                null &&
-
+                    null &&
                 event.pointerId !==
-                joystick.pointerId
+                    joystick.pointerId
             ) {
                 return;
             }
@@ -2370,8 +4587,10 @@ function setupJoystick() {
             joystick.active =
                 false;
 
+
             joystick.pointerId =
                 null;
+
 
             joystick.x = 0;
 
@@ -2388,6 +4607,7 @@ function setupJoystick() {
         "pointerup",
         end
     );
+
 
     base.addEventListener(
         "pointercancel",
@@ -2460,6 +4680,7 @@ function updateJoystick(
     joystick.x =
         x / radius;
 
+
     joystick.y =
         y / radius;
 
@@ -2475,7 +4696,7 @@ function updateJoystick(
 
 
 /* =========================================================
-   ACTION BUTTONS
+   ACTION STATE
    ========================================================= */
 
 const matchState = {
@@ -2491,13 +4712,23 @@ const matchState = {
 };
 
 
+let sprintTimer =
+    null;
+
+
+/* =========================================================
+   ACTION BUTTONS
+   ========================================================= */
+
 function setupActionButton(
     id,
     action
 ) {
 
     const button =
-        document.getElementById(id);
+        document.getElementById(
+            id
+        );
 
 
     if (!button) {
@@ -2505,7 +4736,11 @@ function setupActionButton(
     }
 
 
-    let timer = null;
+    let timer =
+        null;
+
+    let longTriggered =
+        false;
 
 
     button.addEventListener(
@@ -2513,6 +4748,10 @@ function setupActionButton(
         event => {
 
             event.preventDefault();
+
+
+            longTriggered =
+                false;
 
 
             setAction(
@@ -2524,6 +4763,9 @@ function setupActionButton(
             timer =
                 setTimeout(
                     () => {
+
+                        longTriggered =
+                            true;
 
                         longAction(
                             action
@@ -2550,7 +4792,8 @@ function setupActionButton(
                     timer
                 );
 
-                timer = null;
+                timer =
+                    null;
 
             }
 
@@ -2561,9 +4804,15 @@ function setupActionButton(
             );
 
 
-            tapAction(
-                action
-            );
+            if (
+                !longTriggered
+            ) {
+
+                tapAction(
+                    action
+                );
+
+            }
 
         }
     );
@@ -2579,7 +4828,8 @@ function setupActionButton(
                     timer
                 );
 
-                timer = null;
+                timer =
+                    null;
 
             }
 
@@ -2595,29 +4845,40 @@ function setupActionButton(
 }
 
 
+/* =========================================================
+   SET ACTION
+   ========================================================= */
+
 function setAction(
     action,
     value
 ) {
 
     if (
-        action === "A"
+        action ===
+        "A"
     ) {
+
         matchState.actionA =
             value;
+
     }
 
 
     if (
-        action === "B"
+        action ===
+        "B"
     ) {
+
         matchState.actionB =
             value;
+
     }
 
 
     if (
-        action === "C"
+        action ===
+        "C"
     ) {
 
         matchState.actionC =
@@ -2628,16 +4889,16 @@ function setAction(
 }
 
 
+/* =========================================================
+   TAP
+   ========================================================= */
+
 function tapAction(
     action
 ) {
 
-    if (!game.running) {
-        return;
-    }
-
-
     if (
+        !game.running ||
         game.paused
     ) {
         return;
@@ -2645,7 +4906,8 @@ function tapAction(
 
 
     if (
-        action === "A"
+        action ===
+        "A"
     ) {
 
         performPass();
@@ -2654,7 +4916,8 @@ function tapAction(
 
 
     if (
-        action === "B"
+        action ===
+        "B"
     ) {
 
         performShoot();
@@ -2663,7 +4926,8 @@ function tapAction(
 
 
     if (
-        action === "C"
+        action ===
+        "C"
     ) {
 
         performSkill();
@@ -2673,16 +4937,16 @@ function tapAction(
 }
 
 
+/* =========================================================
+   LONG PRESS
+   ========================================================= */
+
 function longAction(
     action
 ) {
 
-    if (!game.running) {
-        return;
-    }
-
-
     if (
+        !game.running ||
         game.paused
     ) {
         return;
@@ -2690,7 +4954,8 @@ function longAction(
 
 
     if (
-        action === "A"
+        action ===
+        "A"
     ) {
 
         performThroughPass();
@@ -2699,7 +4964,8 @@ function longAction(
 
 
     if (
-        action === "B"
+        action ===
+        "B"
     ) {
 
         performPowerShot();
@@ -2708,7 +4974,8 @@ function longAction(
 
 
     if (
-        action === "C"
+        action ===
+        "C"
     ) {
 
         performSprint();
@@ -2719,233 +4986,110 @@ function longAction(
 
 
 /* =========================================================
-   SCOREBOARD
+   DOUBLE TAP / PLAYER SWITCH
    ========================================================= */
 
-function updateScoreboard() {
-
-    document.getElementById(
-        "homeScore"
-    ).textContent =
-        game.homeScore;
+let lastSwitchTap =
+    0;
 
 
-    document.getElementById(
-        "awayScore"
-    ).textContent =
-        game.awayScore;
+function setupSwitchGesture() {
+
+    const canvas =
+        document.getElementById(
+            "footballCanvas"
+        );
 
 
-    document.getElementById(
-        "homeTeamName"
-    ).textContent =
-        game.selectedTeam;
+    if (!canvas) {
+        return;
+    }
 
+
+    canvas.addEventListener(
+        "pointerdown",
+        event => {
+
+            if (
+                !game.running ||
+                game.paused
+            ) {
+                return;
+            }
+
+
+            const now =
+                Date.now();
+
+
+            if (
+                now -
+                lastSwitchTap <
+                350
+            ) {
+
+                switchPlayer();
+
+            }
+
+
+            lastSwitchTap =
+                now;
+
+        }
+    );
 
 }
 
 
 /* =========================================================
-   MATCH CLOCK
+   UTILITIES
    ========================================================= */
 
-function updateMatchClock() {
+function distance(
+    a,
+    b
+) {
 
-    const seconds =
-        Math.floor(
-            game.elapsed
-        );
-
-
-    const minutes =
-        Math.floor(
-            seconds / 60
-        );
+    if (!a || !b) {
+        return Infinity;
+    }
 
 
-    const remaining =
-        seconds % 60;
+    return Math.sqrt(
 
-
-    document.getElementById(
-        "matchTime"
-    ).textContent =
-
-        String(minutes)
-            .padStart(2, "0")
+        Math.pow(
+            a.x -
+            b.x,
+            2
+        )
 
         +
 
-        ":" +
+        Math.pow(
+            a.y -
+            b.y,
+            2
+        )
 
-        String(remaining)
-            .padStart(2, "0");
+    );
 
 }
 
 
-/* =========================================================
-   ACTION MESSAGE
-   ========================================================= */
-
-let messageTimer = null;
-
-
-function showActionMessage(
-    message
+function clamp(
+    value,
+    min,
+    max
 ) {
 
-    const element =
-        document.getElementById(
-            "actionMessage"
-        );
-
-
-    if (!element) {
-        return;
-    }
-
-
-    element.textContent =
-        message;
-
-
-    clearTimeout(
-        messageTimer
+    return Math.max(
+        min,
+        Math.min(
+            max,
+            value
+        )
     );
-
-
-    messageTimer =
-        setTimeout(
-            () => {
-
-                element.textContent =
-                    "READY";
-
-            },
-            1000
-        );
-
-}
-
-
-/* =========================================================
-   PAUSE
-   ========================================================= */
-
-function togglePause() {
-
-    if (!game.running) {
-        return;
-    }
-
-
-    game.paused =
-        !game.paused;
-
-
-    const panel =
-        document.getElementById(
-            "pausePanel"
-        );
-
-
-    if (
-        game.paused
-    ) {
-
-        panel.classList.remove(
-            "hidden"
-        );
-
-    } else {
-
-        panel.classList.add(
-            "hidden"
-        );
-
-        game.lastTime =
-            performance.now();
-
-    }
-
-}
-
-
-/* =========================================================
-   RESTART
-   ========================================================= */
-
-function restartMatch() {
-
-    const team =
-        game.selectedTeam;
-
-
-    createMatch();
-
-
-    game.elapsed = 0;
-
-    game.running = true;
-
-    game.paused = false;
-
-
-    document.getElementById(
-        "pausePanel"
-    ).classList.add(
-        "hidden"
-    );
-
-
-    showActionMessage(
-        "MATCH RESTARTED"
-    );
-
-}
-
-
-/* =========================================================
-   EXIT MATCH
-   ========================================================= */
-
-function exitMatch() {
-
-    game.running =
-        false;
-
-    game.paused =
-        false;
-
-
-    if (
-        game.animationId
-    ) {
-
-        cancelAnimationFrame(
-            game.animationId
-        );
-
-        game.animationId =
-            null;
-
-    }
-
-
-    const panel =
-        document.getElementById(
-            "pausePanel"
-        );
-
-
-    if (panel) {
-
-        panel.classList.add(
-            "hidden"
-        );
-
-    }
 
 }
 
@@ -2971,7 +5115,7 @@ window.addEventListener(
 
 
 /* =========================================================
-   INITIALIZE
+   STARTUP
    ========================================================= */
 
 document.addEventListener(
@@ -2982,19 +5126,24 @@ document.addEventListener(
             "homeScreen"
         );
 
+
         loadManager();
 
+
         setupJoystick();
+
 
         setupActionButton(
             "buttonA",
             "A"
         );
 
+
         setupActionButton(
             "buttonB",
             "B"
         );
+
 
         setupActionButton(
             "buttonC",
@@ -3002,8 +5151,11 @@ document.addEventListener(
         );
 
 
+        setupSwitchGesture();
+
+
         console.log(
-            "⚡ KRISH SOCCER V0.3 ENGINE ONLINE"
+            "🔥 KRISH SOCCER V0.4 BEAST ENGINE ONLINE"
         );
 
     }
