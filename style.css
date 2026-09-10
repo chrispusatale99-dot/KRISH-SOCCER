@@ -1,8 +1,3 @@
-/* =========================================================
-   KRISH SOCCER V0.3
-   PLAYABLE FOOTBALL MATCH
-   ========================================================= */
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -31,14 +26,26 @@ body {
     touch-action: manipulation;
 }
 
+body {
+    min-height: 100vh;
+}
+
 button {
     border: none;
     color: white;
     cursor: pointer;
-
+    font-family: inherit;
     font-weight: 800;
 
     touch-action: manipulation;
+}
+
+button:active {
+    transform: scale(.95);
+}
+
+.hidden {
+    display: none !important;
 }
 
 
@@ -53,9 +60,9 @@ button {
     background:
         radial-gradient(
             circle at top,
-            #12375a,
-            #06101a 55%,
-            #02060a
+            #123b60 0%,
+            #071725 48%,
+            #02060a 100%
         );
 }
 
@@ -67,17 +74,38 @@ button {
 .screen {
     width: 100%;
     max-width: 1200px;
-
     height: 100%;
-    overflow-y: auto;
 
     margin: auto;
 
-    padding: 25px 30px 50px;
+    padding:
+        25px
+        30px
+        50px;
+
+    overflow-y: auto;
 }
 
-.hidden {
-    display: none !important;
+.back {
+    padding: 10px 18px;
+
+    margin-bottom: 25px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(255,255,255,.10);
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
+    font-size: 14px;
+}
+
+.back:active {
+    background:
+        rgba(255,255,255,.20);
 }
 
 
@@ -89,11 +117,19 @@ button {
     text-align: center;
 
     padding:
-        60px 10px 35px;
+        55px
+        10px
+        35px;
 }
 
 .football-logo {
-    font-size: 80px;
+    font-size: 82px;
+
+    filter:
+        drop-shadow(
+            0 15px 25px
+            rgba(0,0,0,.45)
+        );
 
     animation:
         floatingBall
@@ -106,48 +142,84 @@ button {
 
     0%,
     100% {
-        transform: translateY(0);
+        transform:
+            translateY(0)
+            rotate(0deg);
     }
 
     50% {
-        transform: translateY(-12px);
+        transform:
+            translateY(-12px)
+            rotate(8deg);
     }
 }
 
+.version-badge {
+    display: inline-block;
+
+    margin-top: 10px;
+
+    padding:
+        6px
+        12px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(0,220,120,.12);
+
+    border:
+        1px solid
+        rgba(0,255,140,.25);
+
+    color:
+        #8dffc0;
+
+    font-size: 10px;
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
+}
+
 .hero h1 {
-    margin-top: 15px;
+    margin-top: 14px;
 
     font-size:
         clamp(
-            32px,
+            34px,
             7vw,
-            58px
+            64px
         );
 
     font-weight: 1000;
 
     letter-spacing: 3px;
+
+    text-shadow:
+        0 8px 25px
+        rgba(0,0,0,.4);
 }
 
 .hero p {
     margin-top: 10px;
 
+    opacity: .65;
+
     font-size: 12px;
 
-    letter-spacing: 3px;
-
-    opacity: 0.7;
+    letter-spacing: 4px;
 }
 
 
 /* =========================================================
-   MENU
+   MAIN MENU
    ========================================================= */
 
 .menu {
     width:
         min(
-            700px,
+            720px,
             100%
         );
 
@@ -156,21 +228,174 @@ button {
     display: grid;
 
     grid-template-columns:
-        repeat(
-            2,
-            1fr
-        );
+        repeat(2, 1fr);
 
-    gap: 14px;
+    gap: 15px;
 }
 
-.menu button,
-.cards button,
-#onlineScreen > button {
+.main-menu-button {
+    min-height: 115px;
 
     padding: 18px;
 
-    border-radius: 15px;
+    display: grid;
+
+    grid-template-columns:
+        55px
+        1fr;
+
+    grid-template-rows:
+        1fr
+        1fr;
+
+    align-items: center;
+
+    text-align: left;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(28,91,145,.9),
+            rgba(8,31,53,.95)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.10);
+
+    box-shadow:
+        0 12px 30px
+        rgba(0,0,0,.30);
+
+    transition:
+        transform .15s,
+        filter .15s;
+}
+
+.main-menu-button:hover {
+    filter: brightness(1.15);
+}
+
+.main-menu-button > span {
+    grid-row:
+        1 / 3;
+
+    font-size: 35px;
+
+    text-align: center;
+}
+
+.main-menu-button strong {
+    font-size: 16px;
+
+    align-self: end;
+}
+
+.main-menu-button small {
+    opacity: .60;
+
+    font-size: 11px;
+
+    align-self: start;
+
+    margin-top: 4px;
+}
+
+.home-status {
+    width: fit-content;
+
+    margin:
+        25px
+        auto;
+
+    padding:
+        8px
+        14px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(0,0,0,.25);
+
+    color:
+        #8dffc0;
+
+    font-size: 10px;
+
+    letter-spacing: 1.5px;
+}
+
+.status-dot {
+    display: inline-block;
+
+    width: 7px;
+    height: 7px;
+
+    margin-right: 6px;
+
+    border-radius: 50%;
+
+    background:
+        #39ff8a;
+
+    box-shadow:
+        0 0 10px
+        #39ff8a;
+}
+
+
+/* =========================================================
+   PAGE TITLES
+   ========================================================= */
+
+.page-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+}
+
+.page-title > span {
+    font-size: 40px;
+}
+
+.page-title h2 {
+    margin: 0;
+}
+
+.page-title p {
+    margin-top: 5px;
+
+    opacity: .55;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   LEAGUE CARDS
+   ========================================================= */
+
+.cards {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 12px;
+}
+
+.cards button {
+    min-height: 95px;
+
+    padding: 15px;
+
+    border-radius: 16px;
 
     background:
         linear-gradient(
@@ -179,67 +404,41 @@ button {
             #0a223b
         );
 
-    box-shadow:
-        0 8px 25px
-        rgba(0,0,0,.3);
+    border:
+        1px solid
+        rgba(255,255,255,.10);
 
-    font-size: 15px;
+    box-shadow:
+        0 8px 20px
+        rgba(0,0,0,.25);
+
+    font-size: 14px;
 }
 
-button:active {
-    transform: scale(.96);
+.cards button strong {
+    display: block;
+
+    margin-top: 8px;
 }
 
 
 /* =========================================================
-   OTHER SCREENS
+   TEAM AREA
    ========================================================= */
 
-.back {
-    padding:
-        10px 16px;
-
-    margin-bottom: 25px;
-
-    border-radius: 12px;
-
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            .1
-        );
+.team-area {
+    margin-top: 22px;
 }
 
-h2 {
-    margin-bottom: 20px;
-}
-
-.cards {
-    display: grid;
-
-    grid-template-columns:
-        repeat(
-            4,
-            1fr
-        );
-
-    gap: 12px;
-}
-
-#teamArea {
-    margin-top: 20px;
+.team-area h3 {
+    font-size: 20px;
 }
 
 .team-grid {
     display: grid;
 
     grid-template-columns:
-        repeat(
-            3,
-            1fr
-        );
+        repeat(3, 1fr);
 
     gap: 10px;
 
@@ -247,47 +446,139 @@ h2 {
 }
 
 .team-button {
-    padding: 15px;
+    min-height: 58px;
+
+    padding: 12px;
 
     text-align: left;
 
     border-radius: 13px;
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            .08
-        );
+        rgba(255,255,255,.07);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
 }
 
-.manager-card {
-    max-width: 600px;
 
-    margin: auto;
+/* =========================================================
+   ONLINE
+   ========================================================= */
 
-    padding: 30px;
+.online-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 14px;
+}
+
+.online-button {
+    min-height: 150px;
+
+    padding: 20px;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #143d62,
+            #081c31
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.10);
+
+    box-shadow:
+        0 10px 25px
+        rgba(0,0,0,.25);
+}
+
+.online-button span {
+    display: block;
+
+    font-size: 38px;
+
+    margin-bottom: 12px;
+}
+
+.online-button strong {
+    display: block;
+
+    font-size: 15px;
+}
+
+.online-button small {
+    display: block;
+
+    margin-top: 7px;
+
+    opacity: .55;
+}
+
+.online-message {
+    margin-top: 20px;
+
+    padding: 20px;
+
+    border-radius: 15px;
+
+    background:
+        rgba(0,255,136,.07);
+
+    border:
+        1px solid
+        rgba(0,255,136,.10);
 
     text-align: center;
 
-    border-radius: 20px;
+    color:
+        #b8ffd6;
+}
+
+
+/* =========================================================
+   MANAGER
+   ========================================================= */
+
+.manager-card {
+    max-width: 620px;
+
+    margin: auto;
+
+    padding: 35px;
+
+    text-align: center;
+
+    border-radius: 24px;
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            .07
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.09),
+            rgba(255,255,255,.035)
         );
+
+    border:
+        1px solid
+        rgba(255,255,255,.10);
+
+    box-shadow:
+        0 20px 50px
+        rgba(0,0,0,.30);
 }
 
 .manager-photo {
-    width: 110px;
-    height: 110px;
+    width: 115px;
+    height: 115px;
 
     margin:
-        0 auto 20px;
+        0 auto 18px;
 
     display: flex;
 
@@ -296,32 +587,60 @@ h2 {
 
     border-radius: 50%;
 
-    background: #14283e;
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #315a78,
+            #0b1e31
+        );
+
+    border:
+        3px solid
+        rgba(255,255,255,.15);
 
     font-size: 55px;
 }
 
-.manager-card p {
-    margin: 10px;
-    opacity: .8;
+.manager-card h3 {
+    font-size: 22px;
 }
 
-#onlineMessage {
-    margin-top: 20px;
+.manager-stats {
+    display: grid;
 
-    padding: 20px;
+    grid-template-columns:
+        repeat(3, 1fr);
 
-    border-radius: 15px;
+    gap: 10px;
+
+    margin-top: 25px;
+}
+
+.manager-stats div {
+    padding: 15px 8px;
+
+    border-radius: 14px;
 
     background:
-        rgba(
-            0,
-            255,
-            136,
-            .08
-        );
+        rgba(0,0,0,.20);
+}
 
-    text-align: center;
+.manager-stats strong {
+    display: block;
+
+    font-size: 25px;
+}
+
+.manager-stats span {
+    display: block;
+
+    margin-top: 5px;
+
+    font-size: 9px;
+
+    opacity: .55;
+
+    letter-spacing: 1px;
 }
 
 
@@ -330,7 +649,6 @@ h2 {
    ========================================================= */
 
 .match-screen {
-
     position: fixed;
 
     inset: 0;
@@ -340,7 +658,8 @@ h2 {
 
     overflow: hidden;
 
-    background: #071b0e;
+    background:
+        #06180b;
 
     z-index: 1000;
 }
@@ -351,14 +670,12 @@ h2 {
    ========================================================= */
 
 .match-header {
-
     position: absolute;
 
-    left: 0;
     top: 0;
+    left: 0;
 
     width: 100%;
-
     height: 55px;
 
     display: flex;
@@ -366,48 +683,91 @@ h2 {
     align-items: center;
     justify-content: center;
 
-    z-index: 50;
+    z-index: 100;
 
     background:
-        rgba(
-            0,
-            0,
-            0,
-            .7
-        );
+        rgba(0,0,0,.78);
 
     border-bottom:
         1px solid
-        rgba(
-            255,
-            255,
-            255,
-            .12
-        );
+        rgba(255,255,255,.12);
+
+    backdrop-filter:
+        blur(8px);
 }
 
-.team-score {
+.pause-button {
+    position: absolute;
+
+    left: 14px;
+
+    width: 38px;
+    height: 38px;
 
     display: flex;
 
     align-items: center;
+    justify-content: center;
 
-    gap: 15px;
+    border-radius: 50%;
 
-    font-size: 13px;
+    background:
+        rgba(255,255,255,.10);
 
-    text-align: center;
+    border:
+        1px solid
+        rgba(255,255,255,.15);
+
+    font-size: 15px;
 }
 
-.team-score strong {
+.team-score {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 14px;
+}
+
+.score-team {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    min-width: 95px;
+}
+
+.score-team span {
+    font-size: 11px;
+
+    font-weight: 900;
+}
+
+.score-team small {
+    margin-top: 3px;
+
+    font-size: 7px;
+
+    opacity: .40;
+
+    letter-spacing: 1px;
+}
+
+.score-number {
+    display: flex;
+
+    gap: 7px;
+
+    align-items: center;
 
     font-size: 22px;
-
-    min-width: 70px;
 }
 
 .match-time {
-
     position: absolute;
 
     right: 18px;
@@ -416,29 +776,8 @@ h2 {
 
     font-weight: 900;
 
-    color: #8dffc0;
-}
-
-.pause-button {
-
-    position: absolute;
-
-    left: 15px;
-
-    width: 38px;
-    height: 38px;
-
-    padding: 0;
-
-    border-radius: 50%;
-
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            .12
-        );
+    color:
+        #8dffc0;
 }
 
 
@@ -447,7 +786,6 @@ h2 {
    ========================================================= */
 
 #pitchWrapper {
-
     position: absolute;
 
     left: 0;
@@ -456,42 +794,87 @@ h2 {
     top: 55px;
     bottom: 0;
 
+    overflow: hidden;
+
     display: flex;
 
     align-items: center;
     justify-content: center;
 
-    overflow: hidden;
-
-    background: #08732e;
+    background:
+        #08752f;
 }
 
 #footballCanvas {
-
     display: block;
 
     width: 100%;
     height: 100%;
 
-    background: #087a31;
+    background:
+        #08752f;
 
     touch-action: none;
 }
 
 
 /* =========================================================
-   TOUCH CONTROL LAYER
+   MATCH INFORMATION
    ========================================================= */
 
-.match-controls {
-
+.match-info {
     position: absolute;
 
-    inset: 0;
+    top: 67px;
+    left: 50%;
 
-    z-index: 30;
+    transform:
+        translateX(-50%);
+
+    z-index: 80;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 5px 9px;
+
+    border-radius: 18px;
+
+    background:
+        rgba(0,0,0,.38);
+
+    backdrop-filter:
+        blur(5px);
 
     pointer-events: none;
+}
+
+.match-info div {
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    padding:
+        3px
+        7px;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255,255,255,.06);
+}
+
+.match-info span {
+    font-size: 9px;
+}
+
+.match-info strong {
+    font-size: 9px;
 }
 
 
@@ -499,8 +882,17 @@ h2 {
    JOYSTICK
    ========================================================= */
 
-.joystick {
+.match-controls {
+    position: absolute;
 
+    inset: 0;
+
+    z-index: 70;
+
+    pointer-events: none;
+}
+
+.joystick {
     position: absolute;
 
     left: 4%;
@@ -514,7 +906,6 @@ h2 {
 }
 
 .joystick-base {
-
     position: absolute;
 
     width: 145px;
@@ -522,33 +913,50 @@ h2 {
 
     border-radius: 50%;
 
-    border:
-        3px solid
-        rgba(
-            255,
-            255,
-            255,
-            .35
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.12),
+            rgba(0,0,0,.28)
         );
 
-    background:
-        rgba(
-            0,
-            0,
-            0,
-            .25
-        );
+    border:
+        3px solid
+        rgba(255,255,255,.28);
 
     box-shadow:
         inset
-        0 0 25px
-        rgba(0,0,0,.4);
+        0 0 30px
+        rgba(0,0,0,.40),
+
+        0 8px 20px
+        rgba(0,0,0,.30);
 
     touch-action: none;
 }
 
-.joystick-knob {
+.joystick-base::before {
+    content: "";
 
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 72%;
+    height: 72%;
+
+    transform:
+        translate(-50%,-50%);
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.10);
+}
+
+.joystick-knob {
     position: absolute;
 
     left: 50%;
@@ -558,141 +966,121 @@ h2 {
     height: 62px;
 
     transform:
-        translate(
-            -50%,
-            -50%
-        );
+        translate(-50%,-50%);
 
     border-radius: 50%;
 
     background:
         radial-gradient(
-            circle at 35% 30%,
-            #ffffff,
-            #b5c1ce 45%,
-            #4e5d6d
+            circle at 35% 28%,
+            #ffffff 0%,
+            #c8d3dd 40%,
+            #647585 100%
         );
 
     border:
         3px solid
-        rgba(
-            255,
-            255,
-            255,
-            .7
-        );
+        rgba(255,255,255,.65);
 
     box-shadow:
-        0 5px 15px
-        rgba(
-            0,
-            0,
-            0,
-            .5
-        );
+        0 7px 20px
+        rgba(0,0,0,.55);
 }
 
 
 /* =========================================================
-   A B C
+   ACTION CONTROLS
+
+                       C
+
+                   B       A
    ========================================================= */
 
 .action-controls {
-
     position: absolute;
 
     right: 4%;
     bottom: 5%;
 
-    width: 205px;
-    height: 210px;
+    width: 210px;
+    height: 215px;
 
     pointer-events: none;
 }
 
 .action-button {
-
-    width: 78px;
-    height: 78px;
-
-    padding: 0;
+    width: 80px;
+    height: 80px;
 
     display: flex;
 
     align-items: center;
     justify-content: center;
 
+    padding: 0;
+
     border-radius: 50%;
 
     border:
         3px solid
-        rgba(
-            255,
-            255,
-            255,
-            .45
-        );
+        rgba(255,255,255,.38);
 
     background:
         radial-gradient(
-            circle at 35% 30%,
-            #396789,
-            #102d48 60%,
-            #061522
+            circle at 35% 25%,
+            #4b7698,
+            #173b5a 55%,
+            #071a2a 100%
         );
-
-    font-size: 27px;
 
     box-shadow:
-        0 7px 20px
-        rgba(
-            0,
-            0,
-            0,
-            .45
-        );
+        0 8px 20px
+        rgba(0,0,0,.50);
+
+    font-size: 27px;
 
     pointer-events: auto;
 
     touch-action: none;
+
+    transition:
+        transform .08s,
+        filter .08s;
 }
 
 .action-button:active {
+    transform:
+        scale(.87);
 
-    transform: scale(.88);
-
-    filter: brightness(1.4);
+    filter:
+        brightness(1.35);
 }
 
 .button-c {
-
     position: absolute;
 
-    right: 10px;
+    right: 12px;
     top: 0;
 }
 
 .bottom-actions {
-
     position: absolute;
 
     right: 0;
     bottom: 0;
 
-    width: 190px;
+    width: 195px;
     height: 82px;
 }
 
-.bottom-actions #buttonB {
-
+.button-b {
     position: absolute;
 
     left: 0;
     bottom: 0;
 }
 
-.bottom-actions #buttonA {
-
+.button-a {
     position: absolute;
 
     right: 0;
@@ -705,106 +1093,142 @@ h2 {
    ========================================================= */
 
 .action-message {
-
     position: absolute;
 
     left: 50%;
-
-    top: 72px;
+    top: 80px;
 
     transform:
         translateX(-50%);
 
-    z-index: 60;
+    z-index: 120;
 
     padding:
-        7px 15px;
+        8px
+        16px;
 
     border-radius: 20px;
 
     background:
-        rgba(
-            0,
-            0,
-            0,
-            .5
-        );
+        rgba(0,0,0,.55);
 
-    color: white;
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
+    color:
+        white;
 
     font-size: 12px;
 
-    font-weight: 900;
+    font-weight: 1000;
 
-    opacity: .9;
+    letter-spacing: .5px;
 
     pointer-events: none;
 }
 
 
 /* =========================================================
-   PAUSE
+   BALL STATUS
+   ========================================================= */
+
+.ball-status {
+    position: absolute;
+
+    right: 20px;
+    top: 85px;
+
+    z-index: 120;
+
+    padding:
+        6px
+        10px;
+
+    border-radius: 15px;
+
+    background:
+        rgba(0,0,0,.35);
+
+    font-size: 8px;
+
+    font-weight: 900;
+
+    opacity: .55;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   PAUSE PANEL
    ========================================================= */
 
 .pause-panel {
-
     position: absolute;
 
     left: 50%;
     top: 50%;
 
     transform:
-        translate(
-            -50%,
-            -50%
-        );
+        translate(-50%,-50%);
 
-    z-index: 200;
+    z-index: 300;
 
     width:
         min(
             350px,
-            80%
+            82%
         );
 
-    padding: 25px;
-
-    border-radius: 20px;
+    padding: 28px;
 
     text-align: center;
 
+    border-radius: 22px;
+
     background:
-        rgba(
-            3,
-            10,
-            17,
-            .96
-        );
+        rgba(3,10,17,.97);
 
     border:
         1px solid
-        rgba(
-            255,
-            255,
-            255,
-            .15
-        );
+        rgba(255,255,255,.15);
 
     box-shadow:
-        0 20px 60px
-        rgba(
-            0,
-            0,
-            0,
-            .6
-        );
+        0 25px 70px
+        rgba(0,0,0,.70);
+
+    backdrop-filter:
+        blur(15px);
+}
+
+.pause-icon {
+    font-size: 35px;
+
+    margin-bottom: 10px;
+
+    opacity: .8;
 }
 
 .pause-panel h2 {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
+}
+
+.pause-panel p {
+    margin-bottom: 18px;
+
+    opacity: .45;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
 }
 
 .pause-panel button {
+    display: block;
+
+    width: 100%;
+
     margin-top: 10px;
 
     padding: 14px;
@@ -812,12 +1236,179 @@ h2 {
     border-radius: 12px;
 
     background:
-        #123b68;
+        linear-gradient(
+            135deg,
+            #174b78,
+            #0a253e
+        );
 }
 
 
 /* =========================================================
-   LANDSCAPE PHONE
+   MATCH START
+   ========================================================= */
+
+.match-start-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 250;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(0,0,0,.35);
+
+    pointer-events: none;
+}
+
+.match-start-card {
+    padding:
+        25px
+        40px;
+
+    text-align: center;
+
+    border-radius: 20px;
+
+    background:
+        rgba(3,12,20,.90);
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
+    box-shadow:
+        0 20px 50px
+        rgba(0,0,0,.5);
+}
+
+.match-start-card > div {
+    font-size: 50px;
+}
+
+.match-start-card h2 {
+    margin-top: 8px;
+}
+
+.match-start-card p {
+    margin-top: 5px;
+
+    opacity: .5;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   GAME OVER
+   ========================================================= */
+
+.game-over-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 280;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(0,0,0,.55);
+
+    backdrop-filter:
+        blur(5px);
+}
+
+.game-over-card {
+    width:
+        min(
+            370px,
+            85%
+        );
+
+    padding: 30px;
+
+    text-align: center;
+
+    border-radius: 24px;
+
+    background:
+        rgba(4,13,22,.97);
+
+    border:
+        1px solid
+        rgba(255,255,255,.14);
+
+    box-shadow:
+        0 25px 70px
+        rgba(0,0,0,.70);
+}
+
+.game-over-card > span {
+    display: block;
+
+    font-size: 50px;
+
+    margin-bottom: 10px;
+}
+
+.game-over-card h2 {
+    font-size: 24px;
+}
+
+.final-score {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 15px;
+
+    margin:
+        20px
+        0;
+
+    font-size: 36px;
+}
+
+.game-over-card p {
+    opacity: .6;
+
+    font-size: 12px;
+
+    margin-bottom: 20px;
+}
+
+.game-over-card button {
+    width: 100%;
+
+    margin-top: 10px;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #174b78,
+            #0a253e
+        );
+}
+
+
+/* =========================================================
+   LANDSCAPE
    ========================================================= */
 
 @media screen
@@ -832,7 +1423,6 @@ and (orientation: landscape) {
     }
 
     .joystick {
-
         width: 120px;
         height: 120px;
 
@@ -840,93 +1430,174 @@ and (orientation: landscape) {
     }
 
     .joystick-base {
-
         width: 120px;
         height: 120px;
     }
 
     .joystick-knob {
-
         width: 52px;
         height: 52px;
     }
 
     .action-controls {
-
-        width: 175px;
-        height: 175px;
+        width: 180px;
+        height: 180px;
 
         bottom: 4%;
     }
 
     .action-button {
-
-        width: 65px;
-        height: 65px;
+        width: 67px;
+        height: 67px;
 
         font-size: 23px;
     }
 
     .bottom-actions {
-
-        width: 160px;
-        height: 70px;
+        width: 165px;
+        height: 72px;
     }
 
     .team-score {
         gap: 10px;
-        font-size: 11px;
     }
 
-    .team-score strong {
+    .score-team {
+        min-width: 85px;
+    }
+
+    .score-team span {
+        font-size: 10px;
+    }
+
+    .score-number {
         font-size: 20px;
     }
+
+    .match-info {
+        top: 58px;
+    }
+
+    .action-message {
+        top: 62px;
+    }
+
 }
 
 
 /* =========================================================
-   SMALL LANDSCAPE
+   SMALL LANDSCAPE PHONES
    ========================================================= */
 
 @media screen
 and (orientation: landscape)
 and (max-height: 430px) {
 
-    .joystick {
-
-        width: 95px;
-        height: 95px;
-    }
-
-    .joystick-base {
-
-        width: 95px;
-        height: 95px;
-    }
-
-    .joystick-knob {
-
-        width: 42px;
+    .match-header {
         height: 42px;
     }
 
-    .action-controls {
+    #pitchWrapper {
+        top: 42px;
+    }
 
+    .joystick {
+        width: 92px;
+        height: 92px;
+
+        left: 3%;
+        bottom: 4%;
+    }
+
+    .joystick-base {
+        width: 92px;
+        height: 92px;
+    }
+
+    .joystick-knob {
+        width: 40px;
+        height: 40px;
+    }
+
+    .action-controls {
         width: 145px;
         height: 145px;
+
+        right: 3%;
+        bottom: 3%;
     }
 
     .action-button {
+        width: 54px;
+        height: 54px;
 
-        width: 55px;
-        height: 55px;
-
-        font-size: 20px;
+        font-size: 19px;
     }
 
     .bottom-actions {
-
-        width: 135px;
-        height: 60px;
+        width: 132px;
+        height: 58px;
     }
+
+    .match-info {
+        top: 49px;
+
+        transform:
+            translateX(-50%)
+            scale(.85);
+    }
+
+    .action-message {
+        top: 51px;
+
+        transform:
+            translateX(-50%)
+            scale(.85);
+    }
+
+    .ball-status {
+        top: 58px;
+        right: 10px;
+    }
+
+}
+
+
+/* =========================================================
+   PORTRAIT MENU SUPPORT
+   ========================================================= */
+
+@media screen
+and (orientation: portrait)
+and (max-width: 600px) {
+
+    .screen {
+        padding:
+            20px
+            18px
+            35px;
+    }
+
+    .hero {
+        padding-top: 35px;
+    }
+
+    .menu {
+        grid-template-columns: 1fr;
+    }
+
+    .cards {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .online-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .team-grid {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
 }
