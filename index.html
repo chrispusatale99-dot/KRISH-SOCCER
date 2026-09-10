@@ -2,18 +2,36 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     >
 
-    <meta name="theme-color" content="#06101a">
+    <meta
+        name="theme-color"
+        content="#02070d"
+    >
 
-    <title>KRISH SOCCER V0.3</title>
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
 
-    <link rel="stylesheet" href="style.css">
+    <meta
+        name="mobile-web-app-capable"
+        content="yes"
+    >
+
+    <title>KRISH SOCCER V0.4</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
 
 <body>
@@ -22,37 +40,83 @@
 
     <!-- =====================================================
          HOME SCREEN
-    ====================================================== -->
+         ===================================================== -->
 
-    <main id="homeScreen" class="screen">
+    <main
+        id="homeScreen"
+        class="screen"
+    >
 
-        <div class="hero">
+        <section class="hero">
 
-            <div class="football-logo">⚽</div>
+            <div class="football-logo">
+                ⚽
+            </div>
 
-            <h1>KRISH SOCCER</h1>
+            <div class="version-badge">
+                V0.4 BEAST ENGINE
+            </div>
 
-            <p>THE BEAST FOOTBALL EXPERIENCE</p>
+            <h1>
+                KRISH SOCCER
+            </h1>
 
-        </div>
+            <p>
+                THE BEAST FOOTBALL EXPERIENCE
+            </p>
 
-        <div class="menu">
+        </section>
 
-            <button onclick="startOffline()">
-                ⚽ OFFLINE MATCH
+
+        <section class="menu">
+
+            <button
+                class="main-menu-button"
+                onclick="startOffline()"
+            >
+                <span>⚽</span>
+                <strong>OFFLINE MATCH</strong>
+                <small>Play against AI</small>
             </button>
 
-            <button onclick="showOnline()">
-                🌐 ONLINE
+
+            <button
+                class="main-menu-button"
+                onclick="showOnline()"
+            >
+                <span>🌐</span>
+                <strong>ONLINE</strong>
+                <small>Play against players</small>
             </button>
 
-            <button onclick="showLeague()">
-                🏆 KRISH LEAGUE
+
+            <button
+                class="main-menu-button"
+                onclick="showLeague()"
+            >
+                <span>🏆</span>
+                <strong>KRISH LEAGUE</strong>
+                <small>Build your football career</small>
             </button>
 
-            <button onclick="showManager()">
-                👔 MY MANAGER
+
+            <button
+                class="main-menu-button"
+                onclick="showManager()"
+            >
+                <span>👔</span>
+                <strong>MY MANAGER</strong>
+                <small>Manage your club</small>
             </button>
+
+        </section>
+
+
+        <div class="home-status">
+
+            <span class="status-dot"></span>
+
+            GAME ENGINE ONLINE
 
         </div>
 
@@ -60,105 +124,294 @@
 
 
     <!-- =====================================================
-         TEAM SCREEN
-    ====================================================== -->
+         TEAM / LEAGUE SCREEN
+         ===================================================== -->
 
-    <main id="teamScreen" class="screen hidden">
+    <main
+        id="teamScreen"
+        class="screen hidden"
+    >
 
-        <button class="back" onclick="goHome()">
+        <button
+            class="back"
+            onclick="goHome()"
+        >
             ← BACK
         </button>
 
-        <h2>SELECT YOUR LEAGUE</h2>
+
+        <div class="page-title">
+
+            <span>🏆</span>
+
+            <div>
+
+                <h2>
+                    SELECT YOUR LEAGUE
+                </h2>
+
+                <p>
+                    Choose your competition
+                </p>
+
+            </div>
+
+        </div>
+
 
         <div class="cards">
 
-            <button onclick="selectLeague('Premier League')">
-                🏴 PREMIER LEAGUE
+            <button
+                onclick="selectLeague('Premier League')"
+            >
+                🏴
+                <strong>
+                    PREMIER LEAGUE
+                </strong>
             </button>
 
-            <button onclick="selectLeague('La Liga')">
-                🇪🇸 LA LIGA
+
+            <button
+                onclick="selectLeague('La Liga')"
+            >
+                🇪🇸
+                <strong>
+                    LA LIGA
+                </strong>
             </button>
 
-            <button onclick="selectLeague('Serie A')">
-                🇮🇹 SERIE A
+
+            <button
+                onclick="selectLeague('Serie A')"
+            >
+                🇮🇹
+                <strong>
+                    SERIE A
+                </strong>
             </button>
 
-            <button onclick="selectLeague('Bundesliga')">
-                🇩🇪 BUNDESLIGA
+
+            <button
+                onclick="selectLeague('Bundesliga')"
+            >
+                🇩🇪
+                <strong>
+                    BUNDESLIGA
+                </strong>
             </button>
 
         </div>
 
-        <div id="teamArea"></div>
+
+        <div
+            id="teamArea"
+            class="team-area"
+        ></div>
 
     </main>
 
 
     <!-- =====================================================
          ONLINE SCREEN
-    ====================================================== -->
+         ===================================================== -->
 
-    <main id="onlineScreen" class="screen hidden">
+    <main
+        id="onlineScreen"
+        class="screen hidden"
+    >
 
-        <button class="back" onclick="goHome()">
+        <button
+            class="back"
+            onclick="goHome()"
+        >
             ← BACK
         </button>
 
-        <h2>🌐 ONLINE WORLD</h2>
 
-        <button onclick="quickMatch()">
-            ⚔️ QUICK MATCH
-        </button>
+        <div class="page-title">
 
-        <button onclick="krishLeague()">
-            🏆 KRISH LEAGUE
-        </button>
+            <span>🌐</span>
 
-        <button onclick="findOpponent()">
-            🔎 FIND OPPONENT
-        </button>
+            <div>
 
-        <div id="onlineMessage"></div>
+                <h2>
+                    ONLINE WORLD
+                </h2>
+
+                <p>
+                    Enter the KRISH football universe
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="online-grid">
+
+            <button
+                class="online-button"
+                onclick="quickMatch()"
+            >
+
+                <span>
+                    ⚔️
+                </span>
+
+                <strong>
+                    QUICK MATCH
+                </strong>
+
+                <small>
+                    Find an opponent
+                </small>
+
+            </button>
+
+
+            <button
+                class="online-button"
+                onclick="krishLeague()"
+            >
+
+                <span>
+                    🏆
+                </span>
+
+                <strong>
+                    KRISH LEAGUE
+                </strong>
+
+                <small>
+                    Compete for the title
+                </small>
+
+            </button>
+
+
+            <button
+                class="online-button"
+                onclick="findOpponent()"
+            >
+
+                <span>
+                    🔎
+                </span>
+
+                <strong>
+                    FIND OPPONENT
+                </strong>
+
+                <small>
+                    Search for players
+                </small>
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="onlineMessage"
+            class="online-message"
+        >
+            🌐 ONLINE SYSTEM READY
+        </div>
 
     </main>
 
 
     <!-- =====================================================
          MANAGER SCREEN
-    ====================================================== -->
+         ===================================================== -->
 
-    <main id="managerScreen" class="screen hidden">
+    <main
+        id="managerScreen"
+        class="screen hidden"
+    >
 
-        <button class="back" onclick="goHome()">
+        <button
+            class="back"
+            onclick="goHome()"
+        >
             ← BACK
         </button>
 
-        <h2>👔 MY MANAGER</h2>
 
-        <div class="manager-card">
+        <div class="page-title">
+
+            <span>👔</span>
+
+            <div>
+
+                <h2>
+                    MY MANAGER
+                </h2>
+
+                <p>
+                    Your football career
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="manager-card"
+        >
 
             <div class="manager-photo">
                 👔
             </div>
 
-            <h3>KRISH MANAGER</h3>
 
-            <p>
-                Manager Rating:
-                <strong>0</strong>
-            </p>
+            <h3>
+                KRISH MANAGER
+            </h3>
 
-            <p>
-                Trophies:
-                <strong>0</strong>
-            </p>
 
-            <p>
-                Matches:
-                <strong>0</strong>
-            </p>
+            <div class="manager-stats">
+
+                <div>
+
+                    <strong>
+                        0
+                    </strong>
+
+                    <span>
+                        RATING
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        0
+                    </strong>
+
+                    <span>
+                        TROPHIES
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        0
+                    </strong>
+
+                    <span>
+                        MATCHES
+                    </span>
+
+                </div>
+
+            </div>
 
         </div>
 
@@ -167,39 +420,92 @@
 
     <!-- =====================================================
          MATCH SCREEN
-    ====================================================== -->
+         ===================================================== -->
 
-    <main id="matchScreen" class="match-screen hidden">
+    <main
+        id="matchScreen"
+        class="match-screen hidden"
+    >
 
-        <!-- MATCH HEADER -->
 
-        <div class="match-header">
+        <!-- SCOREBOARD -->
+
+        <header
+            class="match-header"
+        >
 
             <button
                 id="pauseButton"
                 class="pause-button"
+                type="button"
                 onclick="togglePause()"
             >
                 II
             </button>
 
-            <div class="team-score">
 
-                <span id="homeTeamName">
-                    KRISH FC
-                </span>
+            <div
+                class="team-score"
+            >
 
-                <strong>
-                    <span id="homeScore">0</span>
-                    -
-                    <span id="awayScore">0</span>
+                <div
+                    class="score-team home-score-team"
+                >
+
+                    <span
+                        id="homeTeamName"
+                    >
+                        KRISH FC
+                    </span>
+
+                    <small>
+                        HOME
+                    </small>
+
+                </div>
+
+
+                <strong
+                    class="score-number"
+                >
+
+                    <span
+                        id="homeScore"
+                    >
+                        0
+                    </span>
+
+                    <span>
+                        -
+                    </span>
+
+                    <span
+                        id="awayScore"
+                    >
+                        0
+                    </span>
+
                 </strong>
 
-                <span id="awayTeamName">
-                    OPPONENT FC
-                </span>
+
+                <div
+                    class="score-team away-score-team"
+                >
+
+                    <span
+                        id="awayTeamName"
+                    >
+                        OPPONENT FC
+                    </span>
+
+                    <small>
+                        AWAY
+                    </small>
+
+                </div>
 
             </div>
+
 
             <div
                 id="matchTime"
@@ -208,14 +514,14 @@
                 00:00
             </div>
 
-        </div>
+        </header>
 
 
-        <!-- =================================================
-             FOOTBALL PITCH
-        ================================================== -->
+        <!-- MATCH CAMERA / PITCH -->
 
-        <div id="pitchWrapper">
+        <div
+            id="pitchWrapper"
+        >
 
             <canvas
                 id="footballCanvas"
@@ -225,17 +531,78 @@
 
 
         <!-- =================================================
-             TOUCH CONTROLS
+             MATCH INFORMATION
+             ================================================= -->
 
-             C
+        <div
+            id="matchInfo"
+            class="match-info"
+        >
 
-        B        A
-        ================================================== -->
+            <div>
+
+                <span>
+                    ⚡
+                </span>
+
+                <strong
+                    id="playerSpeedDisplay"
+                >
+                    0
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    💚
+                </span>
+
+                <strong
+                    id="staminaDisplay"
+                >
+                    100
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    ⚽
+                </span>
+
+                <strong
+                    id="possessionDisplay"
+                >
+                    0%
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             CONTROL SYSTEM
+
+             REQUIRED LAYOUT:
+
+                                        C
+
+                                  B     A
+
+             JOYSTICK
+             ================================================= -->
 
         <div
             id="matchControls"
             class="match-controls"
         >
+
 
             <!-- JOYSTICK -->
 
@@ -266,30 +633,54 @@
                 class="action-controls"
             >
 
+
+                <!-- C -->
+
                 <button
                     id="buttonC"
                     class="action-button button-c"
                     type="button"
+                    aria-label="C Skill Sprint"
                 >
-                    C
+
+                    <span>
+                        C
+                    </span>
+
                 </button>
 
-                <div class="bottom-actions">
+
+                <!-- B + A -->
+
+                <div
+                    class="bottom-actions"
+                >
 
                     <button
                         id="buttonB"
-                        class="action-button"
+                        class="action-button button-b"
                         type="button"
+                        aria-label="B Shoot"
                     >
-                        B
+
+                        <span>
+                            B
+                        </span>
+
                     </button>
+
 
                     <button
                         id="buttonA"
-                        class="action-button"
+                        class="action-button button-a"
                         type="button"
+                        aria-label="A Pass"
                     >
-                        A
+
+                        <span>
+                            A
+                        </span>
+
                     </button>
 
                 </div>
@@ -299,9 +690,7 @@
         </div>
 
 
-        <!-- =================================================
-             ACTION LABEL
-        ================================================== -->
+        <!-- ACTION MESSAGE -->
 
         <div
             id="actionMessage"
@@ -311,28 +700,161 @@
         </div>
 
 
+        <!-- BALL POSSESSION -->
+
+        <div
+            id="ballStatus"
+            class="ball-status"
+        >
+            BALL
+        </div>
+
+
         <!-- =================================================
              PAUSE PANEL
-        ================================================== -->
+             ================================================= -->
 
         <div
             id="pausePanel"
             class="pause-panel hidden"
         >
 
-            <h2>PAUSED</h2>
+            <div
+                class="pause-icon"
+            >
+                II
+            </div>
 
-            <button onclick="togglePause()">
+
+            <h2>
+                MATCH PAUSED
+            </h2>
+
+
+            <p>
+                KRISH SOCCER
+            </p>
+
+
+            <button
+                onclick="togglePause()"
+            >
                 ▶ RESUME
             </button>
 
-            <button onclick="restartMatch()">
+
+            <button
+                onclick="restartMatch()"
+            >
                 🔄 RESTART
             </button>
 
-            <button onclick="exitMatch()">
+
+            <button
+                onclick="exitMatch()"
+            >
                 🏠 EXIT MATCH
             </button>
+
+        </div>
+
+
+        <!-- =================================================
+             MATCH START OVERLAY
+             ================================================= -->
+
+        <div
+            id="matchStartOverlay"
+            class="match-start-overlay hidden"
+        >
+
+            <div
+                class="match-start-card"
+            >
+
+                <div>
+                    ⚽
+                </div>
+
+                <h2>
+                    KRISH SOCCER
+                </h2>
+
+                <p>
+                    MATCH READY
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             GAME OVER OVERLAY
+             ================================================= -->
+
+        <div
+            id="gameOverOverlay"
+            class="game-over-overlay hidden"
+        >
+
+            <div
+                class="game-over-card"
+            >
+
+                <span>
+                    🏆
+                </span>
+
+                <h2>
+                    FULL TIME
+                </h2>
+
+
+                <div
+                    class="final-score"
+                >
+
+                    <strong
+                        id="finalHomeScore"
+                    >
+                        0
+                    </strong>
+
+                    <span>
+                        -
+                    </span>
+
+                    <strong
+                        id="finalAwayScore"
+                    >
+                        0
+                    </strong>
+
+                </div>
+
+
+                <p
+                    id="matchResult"
+                >
+                    MATCH COMPLETE
+                </p>
+
+
+                <button
+                    onclick="restartMatch()"
+                >
+                    🔄 PLAY AGAIN
+                </button>
+
+
+                <button
+                    onclick="exitMatch()"
+                >
+                    🏠 MAIN MENU
+                </button>
+
+            </div>
 
         </div>
 
@@ -341,7 +863,14 @@
 </div>
 
 
-<script src="game.js"></script>
+<!-- =========================================================
+     GAME ENGINE
+     ========================================================= -->
+
+<script
+    src="game.js"
+></script>
 
 </body>
+
 </html>
